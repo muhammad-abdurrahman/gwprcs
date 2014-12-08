@@ -1,29 +1,15 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* This is the GWizards Project Resource Control Sytem developed in Spring MVC and Hibernate as part of my final year project
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
+* Install STS from http://spring.io/tools
+* Import project into the workspace
+* Update the Maven dependencies by right clicking the project and selecting Maven > Update Project
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* Muhammad Abdurrahman (am238@greenwich.ac.uk)
