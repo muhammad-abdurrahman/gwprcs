@@ -5,3 +5,4 @@ project --topLevelPackage org.gwizards.prcs --projectName gwprcs --java 7 --pack
 jpa setup --database MYSQL --provider HIBERNATE 
 osgi start --url file:C:\\Users\\Muhammad\\.m2\\repository\\mysql\\mysql-connector-java\\5.1.18\\mysql-connector-java-5.1.18.jar
 database reverse engineer --schema no-schema-required --includeNonPortableAttributes
+web mvc setup
