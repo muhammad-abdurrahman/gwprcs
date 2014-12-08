@@ -2,3 +2,4 @@
 project --topLevelPackage org.gwizards.prcs --projectName gwprcs --java 7 --packaging JAR
 // Spring Roo 1.3.1.RC1 [rev 4877cfb] log closed at 2014-12-08 15:31:04
 // Spring Roo 1.3.1.RC1 [rev 4877cfb] log opened at 2014-12-08 15:39:12
+jpa setup --database MYSQL --provider HIBERNATE 
