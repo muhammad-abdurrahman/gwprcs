@@ -3,3 +3,5 @@ project --topLevelPackage org.gwizards.prcs --projectName gwprcs --java 7 --pack
 // Spring Roo 1.3.1.RC1 [rev 4877cfb] log closed at 2014-12-08 15:31:04
 // Spring Roo 1.3.1.RC1 [rev 4877cfb] log opened at 2014-12-08 15:39:12
 jpa setup --database MYSQL --provider HIBERNATE 
+osgi start --url file:C:\\Users\\Muhammad\\.m2\\repository\\mysql\\mysql-connector-java\\5.1.18\\mysql-connector-java-5.1.18.jar
+database reverse engineer --schema no-schema-required --includeNonPortableAttributes
