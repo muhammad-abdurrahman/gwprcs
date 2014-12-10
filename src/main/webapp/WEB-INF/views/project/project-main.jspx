@@ -15,7 +15,7 @@
 				href="#">Add new project</a>
 		</div>
 	</util:panel>
-	<util:panel id="stage" title="Stage" openPane="false">
+	<util:panel id="stage" title="Stage" openPane="true">
 		<select>
 			<option value="s1">Stage 1</option>
 			<option value="s2">Stage 2</option>
@@ -27,7 +27,7 @@
 				href="#">Add new stage</a>
 		</div>
 	</util:panel>
-	<util:panel id="task" title="Task" openPane="false">
+	<util:panel id="task" title="Task" openPane="true">
 		<select>
 			<option value="t1">Task 1</option>
 			<option value="t2">Task 2</option>
