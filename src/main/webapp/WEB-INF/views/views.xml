@@ -8,6 +8,18 @@
   <definition name="index" extends="default">
     <put-attribute name="body" value="/WEB-INF/views/index.jspx" />
   </definition>
+  
+  <definition name="project-main" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/project/project-main.jspx" />
+  </definition>
+  
+  <definition name="document-main" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/document/document-main.jspx" />
+  </definition>
+  
+  <definition name="review-main" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/review/review-main.jspx" />
+  </definition>
 
   <definition name="dataAccessFailure" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/dataAccessFailure.jspx" />
