@@ -1,12 +1,15 @@
-<div id="menu" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div class="container-fluid" id="menu"
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
-	<jsp:output omit-xml-declaration="yes"/>
-	<ul>
-		<li><a href="/gwprcs/">Home</a></li>
-		<li><a href="/gwprcs/project/main">Project</a></li>
-		<li><a href="/gwprcs/document/main">Documents</a></li>
-		<li><a href="/gwprcs/review/main">Reviews</a></li>
-		<li><a href="#">Communication</a></li>
-		<li><a href="#">Schedule</a></li>
+	<jsp:output omit-xml-declaration="yes" />
+	<ul class="nav nav-tabs nav-justified">
+		<li class="active" id="home_li"><a href="/gwprcs/">Home</a></li>
+		<li id="project_li"><a href="${context}/project/main">Project</a></li>
+		<li id="document_li"><a href="${context}/document/main">Documents</a></li>
+		<li id="review_li"><a href="${context}/review/main">Reviews</a></li>
+		<li id="communication_li"><a href="#">Communication</a></li>
+		<li id="schedule_li"><a href="#">Schedule</a></li>
 	</ul>
+	<br />
 </div>

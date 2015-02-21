@@ -3,6 +3,9 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
+	<script>
+		selectNavigationTab('document_li');
+	</script>
 	<util:panel id="class" title="Document class">
 			<input type="radio" name="class" value="project" checked="checked"/>Project<br /> 
 			<input type="radio" name="class" value="stage" />Stage<br /> 
