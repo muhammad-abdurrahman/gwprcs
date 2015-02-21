@@ -1,0 +1,54 @@
+<div xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<script>
+
+		var menuItems = $("#menu ul li");
+		menuItems.each(function(idx, li) {
+			var item = $(li);
+			if ($(li).attr('id') == 'project_li') {
+				$(li).addClass("active");
+			} else {
+				$(li).removeClass("active");
+			}
+		});
+	</script>
+	<util:panel id="project" title="Project">
+		<select>
+			<option value="p1">Project 1</option>
+			<option value="p2">Project 2</option>
+			<option value="p3">Project 3</option>
+			<option value="p4">Project 4</option>
+		</select>
+		<div>
+			<a href="#">Manage documents</a> | <a href="#">Manage reviews</a> | <a
+				href="#">Add new project</a>
+		</div>
+	</util:panel>
+	<util:panel id="stage" title="Stage" openPane="true">
+		<select>
+			<option value="s1">Stage 1</option>
+			<option value="s2">Stage 2</option>
+			<option value="s3">Stage 3</option>
+			<option value="s4">Stage 4</option>
+		</select>
+		<div>
+			<a href="#">Manage documents</a> | <a href="#">Manage reviews</a> | <a
+				href="#">Add new stage</a>
+		</div>
+	</util:panel>
+	<util:panel id="task" title="Task" openPane="true">
+		<select>
+			<option value="t1">Task 1</option>
+			<option value="t2">Task 2</option>
+			<option value="t3">Task 3</option>
+			<option value="t4">Task 4</option>
+		</select>
+		<div>
+			<a href="#">Manage documents</a> | <a href="#">Manage reviews</a> | <a
+				href="#">Add new task</a>
+		</div>
+	</util:panel>
+</div>

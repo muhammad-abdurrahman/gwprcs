@@ -1,0 +1,211 @@
+<div xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<script>
+		selectNavigationTab('project_li');
+	</script>
+	<style>
+		.btn {
+			margin-bottom: 10px;
+		}
+	</style>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">Project</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-4" style="text-align: center;">
+
+						<!--Info buttons with dropdown menu-->
+						<div class="btn-group">
+							<button type="button" class="btn btn-info">Select
+								Project</button>
+							<button type="button" data-toggle="dropdown"
+								class="btn btn-info dropdown-toggle">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<c:forEach var="project" items="${projects}">
+									<li><a
+										href="${context}/project?project_id=${project.getLiveProjectNo()}"><c:out
+												value="${project.getProjectShortName()}"></c:out></a></li>
+								</c:forEach>
+							</ul>
+							<br />
+						</div>
+					</div>
+					<div class="col-md-4" style="text-align: center;">
+						<div class="panel panel-info">
+							<div class="panel-heading" style="text-align: left;">Info</div>
+							<div class="panel-body" style="text-align: left;">
+								<c:if test="${not empty selectedProject}">
+									<p>ID: ${selectedProject.getLiveProjectNo()}</p>
+									<p>Name: ${selectedProject.getProjectShortName()}</p>
+									<p>Type:
+										${selectedProject.getProjectTypeNo().getProjectTypeDesc()}</p>
+									<p>
+										Start Date:
+										<fmt:formatDate pattern="dd-MM-yyyy"
+											value="${selectedProject.getProjectStart()}" />
+									</p>
+									<p>
+										End Date:
+										<fmt:formatDate pattern="dd-MM-yyyy"
+											value="${selectedProject.getProjectEnd()}" />
+									</p>
+								</c:if>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Documents</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Reviews</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Projects</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-success">
+		<div class="panel-heading">Stage</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-4" style="text-align: center;">
+
+						<!--Info buttons with dropdown menu-->
+						<div class="btn-group">
+							<button type="button" class="btn btn-info">Select Stage</button>
+							<button type="button" data-toggle="dropdown"
+								class="btn btn-info dropdown-toggle">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Stage 1</a></li>
+								<li><a href="#">Stage 2</a></li>
+								<li><a href="#">Stage 3</a></li>
+							</ul>
+							<br />
+						</div>
+					</div>
+					<div class="col-md-4" style="text-align: center;">
+						<div class="panel panel-info">
+							<div class="panel-heading" style="text-align: left;">Info</div>
+							<div class="panel-body" style="text-align: left;">
+								<p></p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Documents</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Reviews</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Stages for Project</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-warning">
+		<div class="panel-heading">Task</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-4" style="text-align: center;">
+
+						<!--Info buttons with dropdown menu-->
+						<div class="btn-group">
+							<button type="button" class="btn btn-info">Select Task</button>
+							<button type="button" data-toggle="dropdown"
+								class="btn btn-info dropdown-toggle">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Task 1</a></li>
+								<li><a href="#">Task 2</a></li>
+								<li><a href="#">Task 3</a></li>
+							</ul>
+							<br />
+						</div>
+					</div>
+					<div class="col-md-4" style="text-align: center;">
+						<div class="panel panel-info">
+							<div class="panel-heading" style="text-align: left;">Info</div>
+							<div class="panel-body" style="text-align: left;">
+								<p></p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Documents</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Reviews</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" class="btn stretch btn-lg btn-info">Manage
+										Tasks for Stage</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$('.btn.stretch').width(Math.max.apply(Math, $('.btn').map(function() {
+			return $(this).outerWidth();
+		}).get()));
+	</script>
+</div>
