@@ -30,20 +30,22 @@
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css" />
-	<script
-		src="https://code.jquery.com/jquery-2.1.3.min.js">
-	<!-- required for FF3 and Opera -->	
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js">
+	<!-- required for FF3 and Opera -->
+		
 	</script>
-	
+
 	<link rel="stylesheet" href="${context}/resources/styles/custom.css" />
-	
+
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js">
 	<!-- required for FF3 and Opera -->
+		
 	</script>
 
 	<script src="${navigation_js}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
+		
 	</script>
 
 	<link rel="SHORTCUT ICON" href="${favicon}" />
