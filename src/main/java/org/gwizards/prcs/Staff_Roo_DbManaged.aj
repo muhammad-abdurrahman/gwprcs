@@ -10,8 +10,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import org.gwizards.prcs.DocumentVersion;
 import org.gwizards.prcs.Lead;
 import org.gwizards.prcs.LeadFollowup;
+import org.gwizards.prcs.LiveProjectDocument;
+import org.gwizards.prcs.LiveProjectStageDocument;
+import org.gwizards.prcs.LiveProjectStageTaskDocument;
+import org.gwizards.prcs.Review;
 import org.gwizards.prcs.Staff;
 import org.gwizards.prcs.StaffProject;
 import org.gwizards.prcs.StaffRole;
@@ -24,11 +29,26 @@ privileged aspect Staff_Roo_DbManaged {
     @JoinTable(name = "staff_skill_set", joinColumns = { @JoinColumn(name = "staff_no", nullable = false) }, inverseJoinColumns = { @JoinColumn(name = "staff_skill_no", nullable = false) })
     private Set<StaffSkill> Staff.staffSkills;
     
+    @OneToMany(mappedBy = "authorId")
+    private Set<DocumentVersion> Staff.documentVersions;
+    
     @OneToMany(mappedBy = "staffNo")
     private Set<Lead> Staff.leads;
     
     @OneToMany(mappedBy = "staffNo")
     private Set<LeadFollowup> Staff.leadFollowups;
+    
+    @OneToMany(mappedBy = "authorId")
+    private Set<LiveProjectDocument> Staff.liveProjectDocuments;
+    
+    @OneToMany(mappedBy = "authorId")
+    private Set<LiveProjectStageDocument> Staff.liveProjectStageDocuments;
+    
+    @OneToMany(mappedBy = "authorId")
+    private Set<LiveProjectStageTaskDocument> Staff.liveProjectStageTaskDocuments;
+    
+    @OneToMany(mappedBy = "authorNo")
+    private Set<Review> Staff.reviews;
     
     @OneToMany(mappedBy = "staffNo")
     private Set<StaffProject> Staff.staffProjects;
@@ -66,6 +86,14 @@ privileged aspect Staff_Roo_DbManaged {
         this.staffSkills = staffSkills;
     }
     
+    public Set<DocumentVersion> Staff.getDocumentVersions() {
+        return documentVersions;
+    }
+    
+    public void Staff.setDocumentVersions(Set<DocumentVersion> documentVersions) {
+        this.documentVersions = documentVersions;
+    }
+    
     public Set<Lead> Staff.getLeads() {
         return leads;
     }
@@ -80,6 +108,38 @@ privileged aspect Staff_Roo_DbManaged {
     
     public void Staff.setLeadFollowups(Set<LeadFollowup> leadFollowups) {
         this.leadFollowups = leadFollowups;
+    }
+    
+    public Set<LiveProjectDocument> Staff.getLiveProjectDocuments() {
+        return liveProjectDocuments;
+    }
+    
+    public void Staff.setLiveProjectDocuments(Set<LiveProjectDocument> liveProjectDocuments) {
+        this.liveProjectDocuments = liveProjectDocuments;
+    }
+    
+    public Set<LiveProjectStageDocument> Staff.getLiveProjectStageDocuments() {
+        return liveProjectStageDocuments;
+    }
+    
+    public void Staff.setLiveProjectStageDocuments(Set<LiveProjectStageDocument> liveProjectStageDocuments) {
+        this.liveProjectStageDocuments = liveProjectStageDocuments;
+    }
+    
+    public Set<LiveProjectStageTaskDocument> Staff.getLiveProjectStageTaskDocuments() {
+        return liveProjectStageTaskDocuments;
+    }
+    
+    public void Staff.setLiveProjectStageTaskDocuments(Set<LiveProjectStageTaskDocument> liveProjectStageTaskDocuments) {
+        this.liveProjectStageTaskDocuments = liveProjectStageTaskDocuments;
+    }
+    
+    public Set<Review> Staff.getReviews() {
+        return reviews;
+    }
+    
+    public void Staff.setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
     
     public Set<StaffProject> Staff.getStaffProjects() {

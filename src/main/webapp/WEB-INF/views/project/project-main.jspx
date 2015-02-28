@@ -9,10 +9,10 @@
 		selectNavigationTab('project_li');
 	</script>
 	<style>
-		.btn {
-			margin-bottom: 10px;
-		}
-	</style>
+.btn {
+	margin-bottom: 10px;
+}
+</style>
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">Project</div>
@@ -32,7 +32,7 @@
 							<ul class="dropdown-menu">
 								<c:forEach var="project" items="${projects}">
 									<li><a
-										href="${context}/project?project_id=${project.getLiveProjectNo()}"><c:out
+										href="${context}/project?pid=${project.getLiveProjectNo()}"><c:out
 												value="${project.getProjectShortName()}"></c:out></a></li>
 								</c:forEach>
 							</ul>
@@ -41,7 +41,8 @@
 					</div>
 					<div class="col-md-4" style="text-align: center;">
 						<div class="panel panel-info">
-							<div class="panel-heading" style="text-align: left;">Info</div>
+							<div class="panel-heading" style="text-align: left;">Selected
+								Project</div>
 							<div class="panel-body" style="text-align: left;">
 								<c:if test="${not empty selectedProject}">
 									<p>ID: ${selectedProject.getLiveProjectNo()}</p>
@@ -66,8 +67,19 @@
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-12" style="text-align: center;">
-									<button type="button" class="btn stretch btn-lg btn-info">Manage
+									<button name="manageDocumentsBtn" id="manageDocumentsBtn"
+										type="button" class="btn stretch btn-lg btn-info">Manage
 										Documents</button>
+									<script type="text/javascript">
+										$(function() {
+											$('#manageDocumentsBtn')
+													.on(
+															'click',
+															function(e) {
+																window.location.href = "${context}/document/main?pid=${selectedProject.getLiveProjectNo()}";
+															});
+										});
+									</script>
 								</div>
 							</div>
 							<div class="row">
@@ -113,7 +125,8 @@
 					</div>
 					<div class="col-md-4" style="text-align: center;">
 						<div class="panel panel-info">
-							<div class="panel-heading" style="text-align: left;">Info</div>
+							<div class="panel-heading" style="text-align: left;">Selected
+								Stage</div>
 							<div class="panel-body" style="text-align: left;">
 								<p></p>
 							</div>
@@ -170,7 +183,8 @@
 					</div>
 					<div class="col-md-4" style="text-align: center;">
 						<div class="panel panel-info">
-							<div class="panel-heading" style="text-align: left;">Info</div>
+							<div class="panel-heading" style="text-align: left;">Selected
+								Task</div>
 							<div class="panel-body" style="text-align: left;">
 								<p></p>
 							</div>

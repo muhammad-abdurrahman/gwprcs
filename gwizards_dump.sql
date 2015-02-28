@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `gwizards` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `gwizards`;
--- MySQL dump 10.13  Distrib 5.6.17, for osx10.6 (i386)
+-- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: gwizards
+-- Host: localhost    Database: gwizards
 -- ------------------------------------------------------
--- Server version	5.1.44
+-- Server version	5.6.10
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -70,6 +70,55 @@ LOCK TABLES `company_type` WRITE;
 /*!40000 ALTER TABLE `company_type` DISABLE KEYS */;
 INSERT INTO `company_type` VALUES (1,'Social');
 /*!40000 ALTER TABLE `company_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `document_permission`
+--
+
+DROP TABLE IF EXISTS `document_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `document_permission` (
+  `document_permission_no` int(11) NOT NULL,
+  `document_permission_type` varchar(45) NOT NULL,
+  PRIMARY KEY (`document_permission_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `document_permission`
+--
+
+LOCK TABLES `document_permission` WRITE;
+/*!40000 ALTER TABLE `document_permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `document_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `document_version`
+--
+
+DROP TABLE IF EXISTS `document_version`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `document_version` (
+  `document_version_no` int(11) NOT NULL,
+  `document_version_creation_date` datetime NOT NULL,
+  `author_id` int(11) NOT NULL,
+  PRIMARY KEY (`document_version_no`),
+  KEY `fk_author_id_idx` (`author_id`),
+  CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `staff` (`staff_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `document_version`
+--
+
+LOCK TABLES `document_version` WRITE;
+/*!40000 ALTER TABLE `document_version` DISABLE KEYS */;
+/*!40000 ALTER TABLE `document_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -263,6 +312,279 @@ INSERT INTO `live_project` VALUES (1,'test',1,2,1,NULL,NULL,1,'2012-08-23',NULL)
 UNLOCK TABLES;
 
 --
+-- Table structure for table `live_project_document`
+--
+
+DROP TABLE IF EXISTS `live_project_document`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_document` (
+  `live_project_document_no` int(11) NOT NULL,
+  `live_project_document_name` varchar(45) NOT NULL,
+  `live_project_document_type` varchar(45) DEFAULT NULL,
+  `live_project_no` int(11) NOT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `creation_date` datetime NOT NULL,
+  `document_permission_no` int(11) DEFAULT NULL,
+  PRIMARY KEY (`live_project_document_no`),
+  KEY `fk_live_project_no_idx` (`live_project_no`),
+  KEY `fk_author_id_idx` (`author_id`),
+  KEY `fk_document_permission_no_idx` (`document_permission_no`),
+  KEY `fk_lpd_lpn_idx` (`live_project_no`),
+  KEY `fk_lpd_author_idx` (`author_id`),
+  KEY `fk_lpd_dpn_idx` (`document_permission_no`),
+  CONSTRAINT `fk_lpd_lpn` FOREIGN KEY (`live_project_no`) REFERENCES `live_project` (`live_project_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpd_author` FOREIGN KEY (`author_id`) REFERENCES `staff` (`staff_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpd_dpn` FOREIGN KEY (`document_permission_no`) REFERENCES `document_permission` (`document_permission_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_document`
+--
+
+LOCK TABLES `live_project_document` WRITE;
+/*!40000 ALTER TABLE `live_project_document` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_document` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live_project_document_version`
+--
+
+DROP TABLE IF EXISTS `live_project_document_version`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_document_version` (
+  `live_project_document_version_no` int(11) NOT NULL,
+  `live_project_document_no` int(11) NOT NULL,
+  `document_version_no` int(11) NOT NULL,
+  PRIMARY KEY (`live_project_document_version_no`),
+  KEY `fk_lpdv_lpd_idx` (`live_project_document_no`),
+  KEY `fk_lpdv_dv_idx` (`document_version_no`),
+  CONSTRAINT `fk_lpdv_lpd` FOREIGN KEY (`live_project_document_no`) REFERENCES `live_project_document` (`live_project_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `live_project_document_version` (`live_project_document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_document_version`
+--
+
+LOCK TABLES `live_project_document_version` WRITE;
+/*!40000 ALTER TABLE `live_project_document_version` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_document_version` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live_project_review`
+--
+
+DROP TABLE IF EXISTS `live_project_review`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_review` (
+  `live_project_review_no` int(11) NOT NULL,
+  `live_project_no` int(11) NOT NULL,
+  `review_no` int(11) NOT NULL,
+  PRIMARY KEY (`live_project_review_no`),
+  KEY `fk_lpr_lp_idx` (`live_project_no`),
+  KEY `fk_lpr_review_idx` (`review_no`),
+  CONSTRAINT `fk_lpr_lp` FOREIGN KEY (`live_project_no`) REFERENCES `live_project` (`live_project_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpr_review` FOREIGN KEY (`review_no`) REFERENCES `review` (`review_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_review`
+--
+
+LOCK TABLES `live_project_review` WRITE;
+/*!40000 ALTER TABLE `live_project_review` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_review` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live_project_stage`
+--
+
+DROP TABLE IF EXISTS `live_project_stage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_stage` (
+  `live_project_stage_no` int(11) NOT NULL,
+  `live_project_no` int(11) NOT NULL,
+  `stage_no` int(11) NOT NULL,
+  PRIMARY KEY (`live_project_stage_no`),
+  KEY `fk_lps_lp_idx` (`live_project_no`),
+  KEY `fk_lps_stage_idx` (`stage_no`),
+  CONSTRAINT `fk_lps_lp` FOREIGN KEY (`live_project_no`) REFERENCES `live_project` (`live_project_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lps_stage` FOREIGN KEY (`stage_no`) REFERENCES `stage` (`stage_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_stage`
+--
+
+LOCK TABLES `live_project_stage` WRITE;
+/*!40000 ALTER TABLE `live_project_stage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_stage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live_project_stage_document`
+--
+
+DROP TABLE IF EXISTS `live_project_stage_document`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_stage_document` (
+  `live_project_stage_document_no` int(11) NOT NULL,
+  `live_project_stage_document_name` varchar(45) NOT NULL,
+  `live_project_stage_document_type` varchar(45) NOT NULL,
+  `live_project_stage_no` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `creation_date` datetime NOT NULL,
+  `document_permission_no` int(11) NOT NULL,
+  PRIMARY KEY (`live_project_stage_document_no`),
+  KEY `fk_lpsd_lps_idx` (`live_project_stage_no`),
+  KEY `fk_lpsd_author_idx` (`author_id`),
+  KEY `fk_lpsd_dp_idx` (`document_permission_no`),
+  CONSTRAINT `fk_lpsd_lps` FOREIGN KEY (`live_project_stage_no`) REFERENCES `live_project_stage` (`live_project_stage_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpsd_author` FOREIGN KEY (`author_id`) REFERENCES `staff` (`staff_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpsd_dp` FOREIGN KEY (`document_permission_no`) REFERENCES `document_permission` (`document_permission_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_stage_document`
+--
+
+LOCK TABLES `live_project_stage_document` WRITE;
+/*!40000 ALTER TABLE `live_project_stage_document` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_stage_document` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live_project_stage_document_version`
+--
+
+DROP TABLE IF EXISTS `live_project_stage_document_version`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_stage_document_version` (
+  `live_project_stage_document_version_no` int(11) NOT NULL,
+  `live_project_stage_document_no` int(11) NOT NULL,
+  `document_version_no` int(11) NOT NULL,
+  PRIMARY KEY (`live_project_stage_document_version_no`),
+  KEY `fk_lpsdv_lpsd_idx` (`live_project_stage_document_no`),
+  KEY `fk_lpsdv_dv_idx` (`document_version_no`),
+  CONSTRAINT `fk_lpsdv_lpsd` FOREIGN KEY (`live_project_stage_document_no`) REFERENCES `live_project_stage_document` (`live_project_stage_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpsdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `document_version` (`document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_stage_document_version`
+--
+
+LOCK TABLES `live_project_stage_document_version` WRITE;
+/*!40000 ALTER TABLE `live_project_stage_document_version` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_stage_document_version` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live_project_stage_task`
+--
+
+DROP TABLE IF EXISTS `live_project_stage_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_stage_task` (
+  `live_project_stage_task_no` int(11) NOT NULL,
+  `live_project_stage_no` int(11) NOT NULL,
+  `task_no` int(11) NOT NULL,
+  PRIMARY KEY (`live_project_stage_task_no`),
+  KEY `fk_lpst_lps_idx` (`live_project_stage_no`),
+  KEY `fk_lpst_task_idx` (`task_no`),
+  CONSTRAINT `fk_lpst_lps` FOREIGN KEY (`live_project_stage_no`) REFERENCES `live_project_stage` (`live_project_stage_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpst_task` FOREIGN KEY (`task_no`) REFERENCES `task` (`task_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_stage_task`
+--
+
+LOCK TABLES `live_project_stage_task` WRITE;
+/*!40000 ALTER TABLE `live_project_stage_task` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_stage_task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live_project_stage_task_document`
+--
+
+DROP TABLE IF EXISTS `live_project_stage_task_document`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_stage_task_document` (
+  `live_project_stage_task_document_no` int(11) NOT NULL,
+  `live_project_stage_task_document_name` varchar(45) NOT NULL,
+  `live_project_stage_task_document_type` varchar(45) NOT NULL,
+  `live_project_stage_task_no` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `creation_date` datetime NOT NULL,
+  `document_permission_no` int(11) NOT NULL,
+  PRIMARY KEY (`live_project_stage_task_document_no`),
+  KEY `fk_lpstd_lpst_idx` (`live_project_stage_task_no`),
+  KEY `fk_lpstd_author_idx` (`author_id`),
+  KEY `fk_lpstd_dp_idx` (`document_permission_no`),
+  CONSTRAINT `fk_lpstd_lpst` FOREIGN KEY (`live_project_stage_task_no`) REFERENCES `live_project_stage_task` (`live_project_stage_task_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpstd_author` FOREIGN KEY (`author_id`) REFERENCES `staff` (`staff_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpstd_dp` FOREIGN KEY (`document_permission_no`) REFERENCES `document_permission` (`document_permission_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_stage_task_document`
+--
+
+LOCK TABLES `live_project_stage_task_document` WRITE;
+/*!40000 ALTER TABLE `live_project_stage_task_document` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_stage_task_document` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live_project_stage_task_document_version`
+--
+
+DROP TABLE IF EXISTS `live_project_stage_task_document_version`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `live_project_stage_task_document_version` (
+  `live_project_stage_task_document_version_no` int(11) NOT NULL,
+  `live_project_stage_task_document_no` int(11) NOT NULL,
+  `document_version_no` int(11) NOT NULL,
+  PRIMARY KEY (`live_project_stage_task_document_version_no`),
+  KEY `fk_lpstdv_lpstd_idx` (`live_project_stage_task_document_no`),
+  KEY `fk_lpstdv_dv_idx` (`document_version_no`),
+  CONSTRAINT `fk_lpstdv_lpstd` FOREIGN KEY (`live_project_stage_task_document_no`) REFERENCES `live_project_stage_task_document` (`live_project_stage_task_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpstdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `document_version` (`document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live_project_stage_task_document_version`
+--
+
+LOCK TABLES `live_project_stage_task_document_version` WRITE;
+/*!40000 ALTER TABLE `live_project_stage_task_document_version` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live_project_stage_task_document_version` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `project_finance`
 --
 
@@ -300,7 +622,6 @@ CREATE TABLE `project_review` (
   `project_review_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `project_review_notes` text,
   `project_review_status_no` int(11) NOT NULL,
-  `project_reviewcol` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`live_project_no`),
   KEY `project_review_fk1` (`project_review_status_no`),
   KEY `project_review_fk2` (`live_project_no`),
@@ -387,6 +708,33 @@ LOCK TABLES `project_type` WRITE;
 /*!40000 ALTER TABLE `project_type` DISABLE KEYS */;
 INSERT INTO `project_type` VALUES (1,'Good project'),(2,'Bad project');
 /*!40000 ALTER TABLE `project_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `review`
+--
+
+DROP TABLE IF EXISTS `review`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `review` (
+  `review_no` int(11) NOT NULL,
+  `author_no` int(11) NOT NULL,
+  `last_modification_date` datetime NOT NULL,
+  `review_contents` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`review_no`),
+  KEY `fk_review_author_idx` (`author_no`),
+  CONSTRAINT `fk_review_author` FOREIGN KEY (`author_no`) REFERENCES `staff` (`staff_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `review`
+--
+
+LOCK TABLES `review` WRITE;
+/*!40000 ALTER TABLE `review` DISABLE KEYS */;
+/*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -573,6 +921,57 @@ CREATE TABLE `staff_skill_set` (
 LOCK TABLES `staff_skill_set` WRITE;
 /*!40000 ALTER TABLE `staff_skill_set` DISABLE KEYS */;
 /*!40000 ALTER TABLE `staff_skill_set` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stage`
+--
+
+DROP TABLE IF EXISTS `stage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stage` (
+  `stage_no` int(11) NOT NULL AUTO_INCREMENT,
+  `stage_name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`stage_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stage`
+--
+
+LOCK TABLES `stage` WRITE;
+/*!40000 ALTER TABLE `stage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stage_review`
+--
+
+DROP TABLE IF EXISTS `stage_review`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stage_review` (
+  `stage_review_no` int(11) NOT NULL,
+  `stage_no` int(11) NOT NULL,
+  `review_no` int(11) NOT NULL,
+  PRIMARY KEY (`stage_review_no`),
+  KEY `fk_sr_stage_idx` (`stage_no`),
+  KEY `fk_sr_review_idx` (`review_no`),
+  CONSTRAINT `fk_sr_stage` FOREIGN KEY (`stage_no`) REFERENCES `stage` (`stage_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sr_review` FOREIGN KEY (`review_no`) REFERENCES `review` (`review_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stage_review`
+--
+
+LOCK TABLES `stage_review` WRITE;
+/*!40000 ALTER TABLE `stage_review` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stage_review` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -882,6 +1281,57 @@ LOCK TABLES `student_visa_status` WRITE;
 /*!40000 ALTER TABLE `student_visa_status` DISABLE KEYS */;
 /*!40000 ALTER TABLE `student_visa_status` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `task`
+--
+
+DROP TABLE IF EXISTS `task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `task` (
+  `task_no` int(11) NOT NULL,
+  `task_name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`task_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `task`
+--
+
+LOCK TABLES `task` WRITE;
+/*!40000 ALTER TABLE `task` DISABLE KEYS */;
+/*!40000 ALTER TABLE `task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `task_review`
+--
+
+DROP TABLE IF EXISTS `task_review`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `task_review` (
+  `task_review_no` int(11) NOT NULL,
+  `task_no` int(11) NOT NULL,
+  `review_no` int(11) NOT NULL,
+  PRIMARY KEY (`task_review_no`),
+  KEY `fk_tr_task_idx` (`task_no`),
+  KEY `fk_tr_review_idx` (`review_no`),
+  CONSTRAINT `fk_tr_task` FOREIGN KEY (`task_no`) REFERENCES `task` (`task_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tr_review` FOREIGN KEY (`review_no`) REFERENCES `review` (`review_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `task_review`
+--
+
+LOCK TABLES `task_review` WRITE;
+/*!40000 ALTER TABLE `task_review` DISABLE KEYS */;
+/*!40000 ALTER TABLE `task_review` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -892,4 +1342,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-13 12:53:21
+-- Dump completed on 2015-02-28 23:27:27
