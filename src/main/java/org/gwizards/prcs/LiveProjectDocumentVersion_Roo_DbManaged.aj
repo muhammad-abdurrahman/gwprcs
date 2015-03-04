@@ -16,12 +16,12 @@ privileged aspect LiveProjectDocumentVersion_Roo_DbManaged {
     private Set<LiveProjectDocumentVersion> LiveProjectDocumentVersion.liveProjectDocumentVersions;
     
     @ManyToOne
-    @JoinColumn(name = "live_project_document_no", referencedColumnName = "live_project_document_no", nullable = false)
-    private LiveProjectDocument LiveProjectDocumentVersion.liveProjectDocumentNo;
-    
-    @ManyToOne
     @JoinColumn(name = "document_version_no", referencedColumnName = "live_project_document_version_no", nullable = false, insertable = false, updatable = false)
     private LiveProjectDocumentVersion LiveProjectDocumentVersion.documentVersionNo;
+    
+    @ManyToOne
+    @JoinColumn(name = "live_project_document_no", referencedColumnName = "live_project_document_no", nullable = false)
+    private LiveProjectDocument LiveProjectDocumentVersion.liveProjectDocumentNo;
     
     public Set<LiveProjectDocumentVersion> LiveProjectDocumentVersion.getLiveProjectDocumentVersions() {
         return liveProjectDocumentVersions;
@@ -31,20 +31,20 @@ privileged aspect LiveProjectDocumentVersion_Roo_DbManaged {
         this.liveProjectDocumentVersions = liveProjectDocumentVersions;
     }
     
-    public LiveProjectDocument LiveProjectDocumentVersion.getLiveProjectDocumentNo() {
-        return liveProjectDocumentNo;
-    }
-    
-    public void LiveProjectDocumentVersion.setLiveProjectDocumentNo(LiveProjectDocument liveProjectDocumentNo) {
-        this.liveProjectDocumentNo = liveProjectDocumentNo;
-    }
-    
     public LiveProjectDocumentVersion LiveProjectDocumentVersion.getDocumentVersionNo() {
         return documentVersionNo;
     }
     
     public void LiveProjectDocumentVersion.setDocumentVersionNo(LiveProjectDocumentVersion documentVersionNo) {
         this.documentVersionNo = documentVersionNo;
+    }
+    
+    public LiveProjectDocument LiveProjectDocumentVersion.getLiveProjectDocumentNo() {
+        return liveProjectDocumentNo;
+    }
+    
+    public void LiveProjectDocumentVersion.setLiveProjectDocumentNo(LiveProjectDocument liveProjectDocumentNo) {
+        this.liveProjectDocumentNo = liveProjectDocumentNo;
     }
     
 }

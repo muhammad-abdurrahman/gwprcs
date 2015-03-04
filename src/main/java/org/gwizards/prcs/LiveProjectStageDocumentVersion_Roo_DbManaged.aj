@@ -12,20 +12,12 @@ import org.gwizards.prcs.LiveProjectStageDocumentVersion;
 privileged aspect LiveProjectStageDocumentVersion_Roo_DbManaged {
     
     @ManyToOne
-    @JoinColumn(name = "live_project_stage_document_no", referencedColumnName = "live_project_stage_document_no", nullable = false)
-    private LiveProjectStageDocument LiveProjectStageDocumentVersion.liveProjectStageDocumentNo;
-    
-    @ManyToOne
     @JoinColumn(name = "document_version_no", referencedColumnName = "document_version_no", nullable = false)
     private DocumentVersion LiveProjectStageDocumentVersion.documentVersionNo;
     
-    public LiveProjectStageDocument LiveProjectStageDocumentVersion.getLiveProjectStageDocumentNo() {
-        return liveProjectStageDocumentNo;
-    }
-    
-    public void LiveProjectStageDocumentVersion.setLiveProjectStageDocumentNo(LiveProjectStageDocument liveProjectStageDocumentNo) {
-        this.liveProjectStageDocumentNo = liveProjectStageDocumentNo;
-    }
+    @ManyToOne
+    @JoinColumn(name = "live_project_stage_document_no", referencedColumnName = "live_project_stage_document_no", nullable = false)
+    private LiveProjectStageDocument LiveProjectStageDocumentVersion.liveProjectStageDocumentNo;
     
     public DocumentVersion LiveProjectStageDocumentVersion.getDocumentVersionNo() {
         return documentVersionNo;
@@ -33,6 +25,14 @@ privileged aspect LiveProjectStageDocumentVersion_Roo_DbManaged {
     
     public void LiveProjectStageDocumentVersion.setDocumentVersionNo(DocumentVersion documentVersionNo) {
         this.documentVersionNo = documentVersionNo;
+    }
+    
+    public LiveProjectStageDocument LiveProjectStageDocumentVersion.getLiveProjectStageDocumentNo() {
+        return liveProjectStageDocumentNo;
+    }
+    
+    public void LiveProjectStageDocumentVersion.setLiveProjectStageDocumentNo(LiveProjectStageDocument liveProjectStageDocumentNo) {
+        this.liveProjectStageDocumentNo = liveProjectStageDocumentNo;
     }
     
 }

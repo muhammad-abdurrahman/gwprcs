@@ -12,20 +12,12 @@ import org.gwizards.prcs.StageReview;
 privileged aspect StageReview_Roo_DbManaged {
     
     @ManyToOne
-    @JoinColumn(name = "stage_no", referencedColumnName = "stage_no", nullable = false)
-    private Stage StageReview.stageNo;
-    
-    @ManyToOne
     @JoinColumn(name = "review_no", referencedColumnName = "review_no", nullable = false)
     private Review StageReview.reviewNo;
     
-    public Stage StageReview.getStageNo() {
-        return stageNo;
-    }
-    
-    public void StageReview.setStageNo(Stage stageNo) {
-        this.stageNo = stageNo;
-    }
+    @ManyToOne
+    @JoinColumn(name = "stage_no", referencedColumnName = "stage_no", nullable = false)
+    private Stage StageReview.stageNo;
     
     public Review StageReview.getReviewNo() {
         return reviewNo;
@@ -33,6 +25,14 @@ privileged aspect StageReview_Roo_DbManaged {
     
     public void StageReview.setReviewNo(Review reviewNo) {
         this.reviewNo = reviewNo;
+    }
+    
+    public Stage StageReview.getStageNo() {
+        return stageNo;
+    }
+    
+    public void StageReview.setStageNo(Stage stageNo) {
+        this.stageNo = stageNo;
     }
     
 }

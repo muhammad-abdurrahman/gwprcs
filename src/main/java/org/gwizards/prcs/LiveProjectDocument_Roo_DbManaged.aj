@@ -25,16 +25,16 @@ privileged aspect LiveProjectDocument_Roo_DbManaged {
     private Set<LiveProjectDocumentVersion> LiveProjectDocument.liveProjectDocumentVersions;
     
     @ManyToOne
-    @JoinColumn(name = "live_project_no", referencedColumnName = "live_project_no", nullable = false)
-    private LiveProject LiveProjectDocument.liveProjectNo;
-    
-    @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "staff_no")
     private Staff LiveProjectDocument.authorId;
     
     @ManyToOne
     @JoinColumn(name = "document_permission_no", referencedColumnName = "document_permission_no")
     private DocumentPermission LiveProjectDocument.documentPermissionNo;
+    
+    @ManyToOne
+    @JoinColumn(name = "live_project_no", referencedColumnName = "live_project_no", nullable = false)
+    private LiveProject LiveProjectDocument.liveProjectNo;
     
     @Column(name = "live_project_document_name", columnDefinition = "VARCHAR", length = 45)
     @NotNull
@@ -57,14 +57,6 @@ privileged aspect LiveProjectDocument_Roo_DbManaged {
         this.liveProjectDocumentVersions = liveProjectDocumentVersions;
     }
     
-    public LiveProject LiveProjectDocument.getLiveProjectNo() {
-        return liveProjectNo;
-    }
-    
-    public void LiveProjectDocument.setLiveProjectNo(LiveProject liveProjectNo) {
-        this.liveProjectNo = liveProjectNo;
-    }
-    
     public Staff LiveProjectDocument.getAuthorId() {
         return authorId;
     }
@@ -79,6 +71,14 @@ privileged aspect LiveProjectDocument_Roo_DbManaged {
     
     public void LiveProjectDocument.setDocumentPermissionNo(DocumentPermission documentPermissionNo) {
         this.documentPermissionNo = documentPermissionNo;
+    }
+    
+    public LiveProject LiveProjectDocument.getLiveProjectNo() {
+        return liveProjectNo;
+    }
+    
+    public void LiveProjectDocument.setLiveProjectNo(LiveProject liveProjectNo) {
+        this.liveProjectNo = liveProjectNo;
     }
     
     public String LiveProjectDocument.getLiveProjectDocumentName() {

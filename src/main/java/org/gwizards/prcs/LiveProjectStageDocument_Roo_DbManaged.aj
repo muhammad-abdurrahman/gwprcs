@@ -25,16 +25,16 @@ privileged aspect LiveProjectStageDocument_Roo_DbManaged {
     private Set<LiveProjectStageDocumentVersion> LiveProjectStageDocument.liveProjectStageDocumentVersions;
     
     @ManyToOne
-    @JoinColumn(name = "live_project_stage_no", referencedColumnName = "live_project_stage_no", nullable = false)
-    private LiveProjectStage LiveProjectStageDocument.liveProjectStageNo;
-    
-    @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "staff_no", nullable = false)
     private Staff LiveProjectStageDocument.authorId;
     
     @ManyToOne
     @JoinColumn(name = "document_permission_no", referencedColumnName = "document_permission_no", nullable = false)
     private DocumentPermission LiveProjectStageDocument.documentPermissionNo;
+    
+    @ManyToOne
+    @JoinColumn(name = "live_project_stage_no", referencedColumnName = "live_project_stage_no", nullable = false)
+    private LiveProjectStage LiveProjectStageDocument.liveProjectStageNo;
     
     @Column(name = "live_project_stage_document_name", columnDefinition = "VARCHAR", length = 45)
     @NotNull
@@ -58,14 +58,6 @@ privileged aspect LiveProjectStageDocument_Roo_DbManaged {
         this.liveProjectStageDocumentVersions = liveProjectStageDocumentVersions;
     }
     
-    public LiveProjectStage LiveProjectStageDocument.getLiveProjectStageNo() {
-        return liveProjectStageNo;
-    }
-    
-    public void LiveProjectStageDocument.setLiveProjectStageNo(LiveProjectStage liveProjectStageNo) {
-        this.liveProjectStageNo = liveProjectStageNo;
-    }
-    
     public Staff LiveProjectStageDocument.getAuthorId() {
         return authorId;
     }
@@ -80,6 +72,14 @@ privileged aspect LiveProjectStageDocument_Roo_DbManaged {
     
     public void LiveProjectStageDocument.setDocumentPermissionNo(DocumentPermission documentPermissionNo) {
         this.documentPermissionNo = documentPermissionNo;
+    }
+    
+    public LiveProjectStage LiveProjectStageDocument.getLiveProjectStageNo() {
+        return liveProjectStageNo;
+    }
+    
+    public void LiveProjectStageDocument.setLiveProjectStageNo(LiveProjectStage liveProjectStageNo) {
+        this.liveProjectStageNo = liveProjectStageNo;
     }
     
     public String LiveProjectStageDocument.getLiveProjectStageDocumentName() {

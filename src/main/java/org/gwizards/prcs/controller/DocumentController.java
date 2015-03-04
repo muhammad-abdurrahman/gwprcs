@@ -1,5 +1,5 @@
 package org.gwizards.prcs.controller;
-import java.util.List;
+import java.util.Set;
 
 import org.gwizards.prcs.LiveProject;
 import org.gwizards.prcs.LiveProjectDocument;
@@ -22,7 +22,7 @@ public class DocumentController {
 	public String showDocumentsForProject(
 			@RequestParam(value = "pid") int pid, Model model) {
 		LiveProject liveProject = LiveProject.findLiveProject(pid);
-		List<LiveProjectDocument> liveProjectDouments = (List<LiveProjectDocument>)liveProject.getLiveProjectDocuments();
+		Set<LiveProjectDocument> liveProjectDouments = liveProject.getLiveProjectDocuments();
 		model.addAttribute("projectDocuments", liveProjectDouments);
 		model.addAttribute("selectedProject", liveProject);
 		return "document-main";

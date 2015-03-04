@@ -12,20 +12,12 @@ import org.gwizards.prcs.LiveProjectStageTaskDocumentVersion;
 privileged aspect LiveProjectStageTaskDocumentVersion_Roo_DbManaged {
     
     @ManyToOne
-    @JoinColumn(name = "live_project_stage_task_document_no", referencedColumnName = "live_project_stage_task_document_no", nullable = false)
-    private LiveProjectStageTaskDocument LiveProjectStageTaskDocumentVersion.liveProjectStageTaskDocumentNo;
-    
-    @ManyToOne
     @JoinColumn(name = "document_version_no", referencedColumnName = "document_version_no", nullable = false)
     private DocumentVersion LiveProjectStageTaskDocumentVersion.documentVersionNo;
     
-    public LiveProjectStageTaskDocument LiveProjectStageTaskDocumentVersion.getLiveProjectStageTaskDocumentNo() {
-        return liveProjectStageTaskDocumentNo;
-    }
-    
-    public void LiveProjectStageTaskDocumentVersion.setLiveProjectStageTaskDocumentNo(LiveProjectStageTaskDocument liveProjectStageTaskDocumentNo) {
-        this.liveProjectStageTaskDocumentNo = liveProjectStageTaskDocumentNo;
-    }
+    @ManyToOne
+    @JoinColumn(name = "live_project_stage_task_document_no", referencedColumnName = "live_project_stage_task_document_no", nullable = false)
+    private LiveProjectStageTaskDocument LiveProjectStageTaskDocumentVersion.liveProjectStageTaskDocumentNo;
     
     public DocumentVersion LiveProjectStageTaskDocumentVersion.getDocumentVersionNo() {
         return documentVersionNo;
@@ -33,6 +25,14 @@ privileged aspect LiveProjectStageTaskDocumentVersion_Roo_DbManaged {
     
     public void LiveProjectStageTaskDocumentVersion.setDocumentVersionNo(DocumentVersion documentVersionNo) {
         this.documentVersionNo = documentVersionNo;
+    }
+    
+    public LiveProjectStageTaskDocument LiveProjectStageTaskDocumentVersion.getLiveProjectStageTaskDocumentNo() {
+        return liveProjectStageTaskDocumentNo;
+    }
+    
+    public void LiveProjectStageTaskDocumentVersion.setLiveProjectStageTaskDocumentNo(LiveProjectStageTaskDocument liveProjectStageTaskDocumentNo) {
+        this.liveProjectStageTaskDocumentNo = liveProjectStageTaskDocumentNo;
     }
     
 }
