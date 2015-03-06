@@ -1,5 +1,6 @@
 <div xmlns:spring="http://www.springframework.org/tags"
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
@@ -7,11 +8,147 @@
 		selectNavigationTab('document_li');
 	</script>
 	<div class="panel panel-default">
-	<div class="panel-heading">Document Level</div>
+		<div class="panel-heading">Document Level</div>
 		<div class="panel-body">
-			<input type="radio" name="category" value="project" checked="checked" />Project
-			<br /> <input type="radio" name="category" value="stage" />Stage <br />
-			<input type="radio" name="category" value="task" />Task <br />
+			<div class="col-md-4">
+				<div class="form-group">
+					<div id="projectContainer" class="form-group">
+						<label for="projects">Select Project</label> <select
+							class="form-control" id="projects" name="projects"
+							style="width: 250px;" onchange="loadStagesForProject(this.value);">
+							<c:forEach var="project" items="${projects}">
+								<option value="${project.getLiveProjectNo()}">
+									<c:out value="${project.getProjectShortName()}"></c:out>
+								</option>
+							</c:forEach>
+							<script>
+								$(
+										'#projectContainer option[value="${selectedProject.getLiveProjectNo()}"]')
+										.prop('selected', true);
+							</script>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<div id="stageContainer" class="form-group">
+						<label for="selectedStage">Select Stage</label> <select
+							class="form-control" id="stages" name="stages"
+							style="width: 250px;">
+							<c:forEach var="stage" items="${selectedProject.getLiveProjectStages()}">
+								<option value="${stage.getLiveProjectStageNo()}">
+									<c:out value="${stage.getStageNo().getStageName()}"></c:out>
+								</option>
+							</c:forEach>
+							<script>
+								$(
+										'#stageContainer option[value="-1"]')
+										.prop('selected', true);
+							</script>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<div id="taskContainer" class="form-group">
+						<label for="selectedTask">Select Task</label> <select
+							class="form-control" id="tasks" name="tasks"
+							style="width: 250px;">
+							<option></option>
+						</select>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+
+	<link rel="stylesheet"
+		href="http://cdn.datatables.net/1.10.5/css/jquery.dataTables.css" />
+
+	<div id="example_wrapper" class="dataTables_wrapper">
+		<table id="example" class="display dataTable" cellspacing="0"
+			width="100%" role="grid" aria-describedby="example_info"
+			style="width: 100%;">
+			<thead>
+				<tr role="row">
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="ID: activate to sort column ascending"
+						style="width: 30px;">ID</th>
+					<th class="sorting_asc" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1" aria-sort="ascending"
+						aria-label="Document Title: activate to sort column descending"
+						style="width: 326px;">Document Title</th>
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="Latest Version: activate to sort column ascending"
+						style="width: 130px;">Latest Version</th>
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="Actions: activate to sort column ascending"
+						style="width: 70px;">Actions</th>
+				</tr>
+			</thead>
+
+			<tfoot>
+				<tr>
+					<th rowspan="1" colspan="1">ID</th>
+					<th rowspan="1" colspan="1">Document Title</th>
+					<th rowspan="1" colspan="1">Latest Version</th>
+					<th rowspan="1" colspan="1">Actions</th>
+				</tr>
+			</tfoot>
+
+			<tbody>
+				<tr role="row" class="odd">
+					<td>1</td>
+					<td class="sorting_1">Functional Requirements</td>
+					<td><a href="#">v1-0912141501</a></td>
+					<td><a href="#">View Versions</a> | <a href="#">Manage
+							Permissions</a></td>
+				</tr>
+				<tr role="row" class="even">
+					<td>2</td>
+					<td class="sorting_1">Non Functional Requirements</td>
+					<td><a href="#">v3-0612141032</a></td>
+					<td><a href="#">View Versions</a> | <a href="#">Manage
+							Permissions</a></td>
+				</tr>
+				<tr role="row" class="odd">
+					<td>3</td>
+					<td class="sorting_1">Test Cases</td>
+					<td><a href="#">v5-1012142100</a></td>
+					<td><a href="#">View Versions</a> | <a href="#">Manage
+							Permissions</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script>
+		$(document).ready(
+				function() {
+					var table = $('#example').DataTable();
+
+					$('#example tbody').on('click', 'tr', function() {
+						$(this).toggleClass('selected');
+					});
+
+					$('#button').click(
+							function() {
+								alert(table.rows('.selected').data().length
+										+ ' row(s) selected');
+							});
+				});
+
+		var loadStagesForProject = function(projectId) {
+			//$("#stages").
+		};
+	</script>
+	<script
+		src="http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
 </div>

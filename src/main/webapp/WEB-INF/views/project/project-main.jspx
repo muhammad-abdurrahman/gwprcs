@@ -9,16 +9,16 @@
 		selectNavigationTab('project_li');
 	</script>
 	<style>
-.btn {
-	margin-bottom: 10px;
-}
-
-.panel.panel-info {
-	margin-bottom: 12px;
-}
-
-@media ( min-width : 992px) {
+	.btn {
+		margin-bottom: 10px;
+	}
+	
 	.panel.panel-info {
+		margin-bottom: 12px;
+	}
+
+	@media ( min-width : 992px) {
+	.panel.panel-info { 
 		margin-bottom: 0;
 	}
 }

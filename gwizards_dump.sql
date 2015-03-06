@@ -307,7 +307,7 @@ CREATE TABLE `live_project` (
 
 LOCK TABLES `live_project` WRITE;
 /*!40000 ALTER TABLE `live_project` DISABLE KEYS */;
-INSERT INTO `live_project` VALUES (1,'test',1,2,1,NULL,NULL,1,'2012-08-23',NULL),(2,'dfa',1,1,1,NULL,NULL,3,'2012-08-02',NULL),(3,'Some t',1,1,1,NULL,NULL,1,'2012-07-23',NULL),(4,'af',1,1,1,NULL,NULL,6,'2012-08-04',NULL),(5,'sdf',1,1,1,NULL,NULL,9,'2012-06-23',NULL),(6,'afaf',1,1,1,NULL,NULL,1,'2012-05-23',NULL),(7,'afaf',1,1,1,NULL,NULL,1,'2012-08-23',NULL),(8,'Testing just testing',1,1,1,NULL,NULL,19,NULL,NULL),(9,'another test',1,1,1,NULL,NULL,16,NULL,NULL);
+INSERT INTO `live_project` VALUES (1,'Project Alpha',1,2,1,NULL,NULL,1,'2012-08-23',NULL),(2,'Project Bravo',1,1,1,NULL,NULL,3,'2012-08-02',NULL),(3,'Project Charlie',1,1,1,NULL,NULL,1,'2012-07-23',NULL),(4,'Project Delta',1,1,1,NULL,NULL,6,'2012-08-04',NULL),(5,'Project Echo',1,1,1,NULL,NULL,9,'2012-06-23',NULL),(6,'Project Foxtrot',1,1,1,NULL,NULL,1,'2012-05-23',NULL),(7,'Project Golf',1,1,1,NULL,NULL,1,'2012-08-23',NULL),(8,'Project Hotel',1,1,1,NULL,NULL,19,NULL,NULL),(9,'Project India',1,1,1,NULL,NULL,16,NULL,NULL);
 /*!40000 ALTER TABLE `live_project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,9 +333,9 @@ CREATE TABLE `live_project_document` (
   KEY `fk_lpd_lpn_idx` (`live_project_no`),
   KEY `fk_lpd_author_idx` (`author_id`),
   KEY `fk_lpd_dpn_idx` (`document_permission_no`),
-  CONSTRAINT `fk_lpd_lpn` FOREIGN KEY (`live_project_no`) REFERENCES `live_project` (`live_project_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_lpd_author` FOREIGN KEY (`author_id`) REFERENCES `staff` (`staff_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_lpd_dpn` FOREIGN KEY (`document_permission_no`) REFERENCES `document_permission` (`document_permission_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_lpd_dpn` FOREIGN KEY (`document_permission_no`) REFERENCES `document_permission` (`document_permission_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpd_lpn` FOREIGN KEY (`live_project_no`) REFERENCES `live_project` (`live_project_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -362,8 +362,8 @@ CREATE TABLE `live_project_document_version` (
   PRIMARY KEY (`live_project_document_version_no`),
   KEY `fk_lpdv_lpd_idx` (`live_project_document_no`),
   KEY `fk_lpdv_dv_idx` (`document_version_no`),
-  CONSTRAINT `fk_lpdv_lpd` FOREIGN KEY (`live_project_document_no`) REFERENCES `live_project_document` (`live_project_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_lpdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `live_project_document_version` (`live_project_document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_lpdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `live_project_document_version` (`live_project_document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpdv_lpd` FOREIGN KEY (`live_project_document_no`) REFERENCES `live_project_document` (`live_project_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -412,7 +412,7 @@ DROP TABLE IF EXISTS `live_project_stage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `live_project_stage` (
-  `live_project_stage_no` int(11) NOT NULL,
+  `live_project_stage_no` int(11) NOT NULL AUTO_INCREMENT,
   `live_project_no` int(11) NOT NULL,
   `stage_no` int(11) NOT NULL,
   PRIMARY KEY (`live_project_stage_no`),
@@ -420,7 +420,7 @@ CREATE TABLE `live_project_stage` (
   KEY `fk_lps_stage_idx` (`stage_no`),
   CONSTRAINT `fk_lps_lp` FOREIGN KEY (`live_project_no`) REFERENCES `live_project` (`live_project_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_lps_stage` FOREIGN KEY (`stage_no`) REFERENCES `stage` (`stage_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,6 +429,7 @@ CREATE TABLE `live_project_stage` (
 
 LOCK TABLES `live_project_stage` WRITE;
 /*!40000 ALTER TABLE `live_project_stage` DISABLE KEYS */;
+INSERT INTO `live_project_stage` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,2,1),(7,2,2),(8,2,3),(9,2,4),(10,2,5),(11,3,1),(12,3,2),(13,3,3),(14,3,4),(15,3,5),(16,4,1),(17,4,2),(18,4,3),(19,4,4),(20,4,5),(21,5,1),(22,5,2),(23,5,3),(24,5,4),(25,5,5),(26,6,1),(27,6,2),(28,6,3),(29,6,4),(30,6,5),(31,7,1),(32,7,2),(33,7,3),(34,7,4),(35,7,5),(36,8,1),(37,8,2),(38,8,3),(39,8,4),(40,8,5),(41,9,1),(42,9,2),(43,9,3),(44,9,4),(45,9,5);
 /*!40000 ALTER TABLE `live_project_stage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -480,8 +481,8 @@ CREATE TABLE `live_project_stage_document_version` (
   PRIMARY KEY (`live_project_stage_document_version_no`),
   KEY `fk_lpsdv_lpsd_idx` (`live_project_stage_document_no`),
   KEY `fk_lpsdv_dv_idx` (`document_version_no`),
-  CONSTRAINT `fk_lpsdv_lpsd` FOREIGN KEY (`live_project_stage_document_no`) REFERENCES `live_project_stage_document` (`live_project_stage_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_lpsdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `document_version` (`document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_lpsdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `document_version` (`document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpsdv_lpsd` FOREIGN KEY (`live_project_stage_document_no`) REFERENCES `live_project_stage_document` (`live_project_stage_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -502,7 +503,7 @@ DROP TABLE IF EXISTS `live_project_stage_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `live_project_stage_task` (
-  `live_project_stage_task_no` int(11) NOT NULL,
+  `live_project_stage_task_no` int(11) NOT NULL AUTO_INCREMENT,
   `live_project_stage_no` int(11) NOT NULL,
   `task_no` int(11) NOT NULL,
   PRIMARY KEY (`live_project_stage_task_no`),
@@ -510,7 +511,7 @@ CREATE TABLE `live_project_stage_task` (
   KEY `fk_lpst_task_idx` (`task_no`),
   CONSTRAINT `fk_lpst_lps` FOREIGN KEY (`live_project_stage_no`) REFERENCES `live_project_stage` (`live_project_stage_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_lpst_task` FOREIGN KEY (`task_no`) REFERENCES `task` (`task_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -519,6 +520,7 @@ CREATE TABLE `live_project_stage_task` (
 
 LOCK TABLES `live_project_stage_task` WRITE;
 /*!40000 ALTER TABLE `live_project_stage_task` DISABLE KEYS */;
+INSERT INTO `live_project_stage_task` VALUES (1,1,1),(2,2,2),(3,2,3),(4,2,13),(5,3,4),(6,3,5),(7,3,6),(8,3,7),(9,3,8),(10,3,9),(11,4,10),(12,4,11),(13,4,12),(14,5,14),(15,5,15),(16,6,1),(17,7,2),(18,7,3),(19,7,13),(20,8,4),(21,8,5),(22,8,6),(23,8,7),(24,8,8),(25,8,9),(26,9,10),(27,9,11),(28,9,12),(29,10,14),(30,10,15);
 /*!40000 ALTER TABLE `live_project_stage_task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -570,8 +572,8 @@ CREATE TABLE `live_project_stage_task_document_version` (
   PRIMARY KEY (`live_project_stage_task_document_version_no`),
   KEY `fk_lpstdv_lpstd_idx` (`live_project_stage_task_document_no`),
   KEY `fk_lpstdv_dv_idx` (`document_version_no`),
-  CONSTRAINT `fk_lpstdv_lpstd` FOREIGN KEY (`live_project_stage_task_document_no`) REFERENCES `live_project_stage_task_document` (`live_project_stage_task_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_lpstdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `document_version` (`document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_lpstdv_dv` FOREIGN KEY (`document_version_no`) REFERENCES `document_version` (`document_version_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lpstdv_lpstd` FOREIGN KEY (`live_project_stage_task_document_no`) REFERENCES `live_project_stage_task_document` (`live_project_stage_task_document_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -934,7 +936,7 @@ CREATE TABLE `stage` (
   `stage_no` int(11) NOT NULL AUTO_INCREMENT,
   `stage_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`stage_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -943,6 +945,7 @@ CREATE TABLE `stage` (
 
 LOCK TABLES `stage` WRITE;
 /*!40000 ALTER TABLE `stage` DISABLE KEYS */;
+INSERT INTO `stage` VALUES (1,'Initial'),(2,'Requirements Analysis'),(3,'Design'),(4,'Implementation'),(5,'Testing'),(6,'Integration'),(7,'Deployment'),(8,'Maintenance');
 /*!40000 ALTER TABLE `stage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -960,8 +963,8 @@ CREATE TABLE `stage_review` (
   PRIMARY KEY (`stage_review_no`),
   KEY `fk_sr_stage_idx` (`stage_no`),
   KEY `fk_sr_review_idx` (`review_no`),
-  CONSTRAINT `fk_sr_stage` FOREIGN KEY (`stage_no`) REFERENCES `stage` (`stage_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sr_review` FOREIGN KEY (`review_no`) REFERENCES `review` (`review_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_sr_review` FOREIGN KEY (`review_no`) REFERENCES `review` (`review_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sr_stage` FOREIGN KEY (`stage_no`) REFERENCES `stage` (`stage_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1290,10 +1293,10 @@ DROP TABLE IF EXISTS `task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `task` (
-  `task_no` int(11) NOT NULL,
+  `task_no` int(11) NOT NULL AUTO_INCREMENT,
   `task_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`task_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1302,6 +1305,7 @@ CREATE TABLE `task` (
 
 LOCK TABLES `task` WRITE;
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
+INSERT INTO `task` VALUES (1,'Interview Client'),(2,'Identify Functional Requirements'),(3,'Identify Non Functional Requirements'),(4,'Produce Entity Relationship Diagrams'),(5,'Produce System Architecture Diagram'),(6,'Produce UML Use Case Diagrams'),(7,'Produce UML Sequence Diagrams'),(8,'Produce UML Class Diagrams'),(9,'Produce UML State Machine Diagrams'),(10,'Produce Database'),(11,'Produce User Interfaces'),(12,'Implement Business Logic'),(13,'Design Test Cases'),(14,'Black Box Testing'),(15,'White Box Testing'),(16,'Integration Testing'),(17,'Acceptance Testing');
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1342,4 +1346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-28 23:27:27
+-- Dump completed on 2015-03-06 15:12:24

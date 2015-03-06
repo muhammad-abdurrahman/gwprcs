@@ -25,16 +25,16 @@ privileged aspect LiveProjectStageTaskDocument_Roo_DbManaged {
     private Set<LiveProjectStageTaskDocumentVersion> LiveProjectStageTaskDocument.liveProjectStageTaskDocumentVersions;
     
     @ManyToOne
+    @JoinColumn(name = "live_project_stage_task_no", referencedColumnName = "live_project_stage_task_no", nullable = false)
+    private LiveProjectStageTask LiveProjectStageTaskDocument.liveProjectStageTaskNo;
+    
+    @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "staff_no", nullable = false)
     private Staff LiveProjectStageTaskDocument.authorId;
     
     @ManyToOne
     @JoinColumn(name = "document_permission_no", referencedColumnName = "document_permission_no", nullable = false)
     private DocumentPermission LiveProjectStageTaskDocument.documentPermissionNo;
-    
-    @ManyToOne
-    @JoinColumn(name = "live_project_stage_task_no", referencedColumnName = "live_project_stage_task_no", nullable = false)
-    private LiveProjectStageTask LiveProjectStageTaskDocument.liveProjectStageTaskNo;
     
     @Column(name = "live_project_stage_task_document_name", columnDefinition = "VARCHAR", length = 45)
     @NotNull
@@ -58,6 +58,14 @@ privileged aspect LiveProjectStageTaskDocument_Roo_DbManaged {
         this.liveProjectStageTaskDocumentVersions = liveProjectStageTaskDocumentVersions;
     }
     
+    public LiveProjectStageTask LiveProjectStageTaskDocument.getLiveProjectStageTaskNo() {
+        return liveProjectStageTaskNo;
+    }
+    
+    public void LiveProjectStageTaskDocument.setLiveProjectStageTaskNo(LiveProjectStageTask liveProjectStageTaskNo) {
+        this.liveProjectStageTaskNo = liveProjectStageTaskNo;
+    }
+    
     public Staff LiveProjectStageTaskDocument.getAuthorId() {
         return authorId;
     }
@@ -72,14 +80,6 @@ privileged aspect LiveProjectStageTaskDocument_Roo_DbManaged {
     
     public void LiveProjectStageTaskDocument.setDocumentPermissionNo(DocumentPermission documentPermissionNo) {
         this.documentPermissionNo = documentPermissionNo;
-    }
-    
-    public LiveProjectStageTask LiveProjectStageTaskDocument.getLiveProjectStageTaskNo() {
-        return liveProjectStageTaskNo;
-    }
-    
-    public void LiveProjectStageTaskDocument.setLiveProjectStageTaskNo(LiveProjectStageTask liveProjectStageTaskNo) {
-        this.liveProjectStageTaskNo = liveProjectStageTaskNo;
     }
     
     public String LiveProjectStageTaskDocument.getLiveProjectStageTaskDocumentName() {
