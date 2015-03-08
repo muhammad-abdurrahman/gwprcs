@@ -35,9 +35,6 @@ privileged aspect ProjectReview_Roo_DbManaged {
     @Column(name = "project_review_notes", columnDefinition = "TEXT")
     private String ProjectReview.projectReviewNotes;
     
-    @Column(name = "project_reviewcol", columnDefinition = "VARCHAR", length = 45)
-    private String ProjectReview.projectReviewcol;
-    
     public LiveProject ProjectReview.getLiveProject() {
         return liveProject;
     }
@@ -68,14 +65,6 @@ privileged aspect ProjectReview_Roo_DbManaged {
     
     public void ProjectReview.setProjectReviewNotes(String projectReviewNotes) {
         this.projectReviewNotes = projectReviewNotes;
-    }
-    
-    public String ProjectReview.getProjectReviewcol() {
-        return projectReviewcol;
-    }
-    
-    public void ProjectReview.setProjectReviewcol(String projectReviewcol) {
-        this.projectReviewcol = projectReviewcol;
     }
     
 }

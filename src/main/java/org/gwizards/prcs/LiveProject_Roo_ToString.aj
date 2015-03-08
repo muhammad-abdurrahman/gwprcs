@@ -10,7 +10,7 @@ import org.gwizards.prcs.LiveProject;
 privileged aspect LiveProject_Roo_ToString {
     
     public String LiveProject.toString() {
-        return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).setExcludeFieldNames("projectReview", "invoices", "staffProjects", "studentProjects", "studentProjectReviews", "leadFollowupNo", "projectTypeNo", "projectStatusNo", "projectFinNo").toString();
+        return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).setExcludeFieldNames("projectReview", "invoices", "staffProjects", "studentProjects", "studentProjectReviews", "leadFollowupNo", "projectTypeNo", "projectStatusNo", "projectFinNo", "liveProjectDocuments", "liveProjectReviews", "liveProjectStages").toString();
     }
     
 }

@@ -17,6 +17,9 @@ import javax.validation.constraints.NotNull;
 import org.gwizards.prcs.Invoice;
 import org.gwizards.prcs.LeadFollowup;
 import org.gwizards.prcs.LiveProject;
+import org.gwizards.prcs.LiveProjectDocument;
+import org.gwizards.prcs.LiveProjectReview;
+import org.gwizards.prcs.LiveProjectStage;
 import org.gwizards.prcs.ProjectFinance;
 import org.gwizards.prcs.ProjectReview;
 import org.gwizards.prcs.ProjectStatusType;
@@ -33,6 +36,15 @@ privileged aspect LiveProject_Roo_DbManaged {
     
     @OneToMany(mappedBy = "liveProjectNo")
     private Set<Invoice> LiveProject.invoices;
+    
+    @OneToMany(mappedBy = "liveProjectNo")
+    private Set<LiveProjectDocument> LiveProject.liveProjectDocuments;
+    
+    @OneToMany(mappedBy = "liveProjectNo")
+    private Set<LiveProjectReview> LiveProject.liveProjectReviews;
+    
+    @OneToMany(mappedBy = "liveProjectNo")
+    private Set<LiveProjectStage> LiveProject.liveProjectStages;
     
     @OneToMany(mappedBy = "liveProjectNo")
     private Set<StaffProject> LiveProject.staffProjects;
@@ -93,6 +105,30 @@ privileged aspect LiveProject_Roo_DbManaged {
     
     public void LiveProject.setInvoices(Set<Invoice> invoices) {
         this.invoices = invoices;
+    }
+    
+    public Set<LiveProjectDocument> LiveProject.getLiveProjectDocuments() {
+        return liveProjectDocuments;
+    }
+    
+    public void LiveProject.setLiveProjectDocuments(Set<LiveProjectDocument> liveProjectDocuments) {
+        this.liveProjectDocuments = liveProjectDocuments;
+    }
+    
+    public Set<LiveProjectReview> LiveProject.getLiveProjectReviews() {
+        return liveProjectReviews;
+    }
+    
+    public void LiveProject.setLiveProjectReviews(Set<LiveProjectReview> liveProjectReviews) {
+        this.liveProjectReviews = liveProjectReviews;
+    }
+    
+    public Set<LiveProjectStage> LiveProject.getLiveProjectStages() {
+        return liveProjectStages;
+    }
+    
+    public void LiveProject.setLiveProjectStages(Set<LiveProjectStage> liveProjectStages) {
+        this.liveProjectStages = liveProjectStages;
     }
     
     public Set<StaffProject> LiveProject.getStaffProjects() {

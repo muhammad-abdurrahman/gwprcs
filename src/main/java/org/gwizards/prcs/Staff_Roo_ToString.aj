@@ -10,7 +10,7 @@ import org.gwizards.prcs.Staff;
 privileged aspect Staff_Roo_ToString {
     
     public String Staff.toString() {
-        return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).setExcludeFieldNames("staffSkills", "leads", "leadFollowups", "staffProjects", "studentProjects", "staffRoleNo").toString();
+        return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).setExcludeFieldNames("staffSkills", "leads", "leadFollowups", "staffProjects", "studentProjects", "staffRoleNo", "documentVersions", "liveProjectDocuments", "liveProjectStageDocuments", "liveProjectStageTaskDocuments", "reviews").toString();
     }
     
 }

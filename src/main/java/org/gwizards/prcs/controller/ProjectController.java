@@ -21,7 +21,7 @@ public class ProjectController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String showSelectedProject(
-			@RequestParam(value = "project_id") int pid, Model model) {
+			@RequestParam(value = "pid") int pid, Model model) {
 		List<LiveProject> liveProjects = LiveProject.findAllLiveProjects();
 		model.addAttribute("projects", liveProjects);
 		LiveProject liveProject = LiveProject.findLiveProject(pid);

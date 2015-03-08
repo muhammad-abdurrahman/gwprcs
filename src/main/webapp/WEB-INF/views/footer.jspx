@@ -21,16 +21,16 @@
 		</a>
 		</span>
 	</c:if>
-
+	<!-- 
 	<span id="language"> <c:out value=" | " /> <spring:message
 			code="global_language" /> <c:out value=": " /> <util:language
 			label="English" locale="en" />
 	</span>
+	 -->
 	<!--   <util:theme/> -->
 
 	<spring:message code="copyright_message" var="cpy" htmlEscape="false" />
 	<jsp:useBean id="now" class="java.util.Date" />
 	<fmt:formatDate var="year" value="${now}" pattern="yyyy" />
-	<span style="float: right;">${cpy} 2014 - ${year} GWizards
-	</span>
+	<span style="float: right;">${cpy} 2014 - ${year} GWizards </span>
 </div>
