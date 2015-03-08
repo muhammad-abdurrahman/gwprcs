@@ -257,7 +257,7 @@
 		
 		var manageDocumentForProject = function(liveProjectNo) {
 			if (liveProjectNo != null) {
-				window.location.href = "${context}/document?pid=${selectedProject.getLiveProjectNo()}";
+				window.location.href = "${context}/document/project?pid=${selectedProject.getLiveProjectNo()}";
 			}
 		};
 	</script>

@@ -19,7 +19,7 @@
           <ul class="nav navbar-nav">
             <!-- <li class="active" id="home_li"><a href="/gwprcs/">Home</a></li>  -->
 			<li class="active" id="project_li"><a href="${context}/project/main">Project</a></li>
-			<li id="document_li"><a href="${context}/document/main">Documents</a></li>
+			<li id="document_li"><a href="${context}/document/project?pid=1">Documents</a></li>
 			<li id="review_li"><a href="${context}/review/main">Reviews</a></li>
 			<li id="communication_li"><a href="#">Communication</a></li>
 			<li id="schedule_li"><a href="#">Schedule</a></li>

@@ -10,54 +10,78 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Document Level</div>
 		<div class="panel-body">
-			<div class="col-md-4">
-				<div class="form-group">
-					<div id="projectContainer" class="form-group">
-						<label for="projects">Select Project</label> <select
-							class="form-control" id="projects" name="projects"
-							style="width: 250px;" onchange="loadStagesForProject(this.value);">
-							<c:forEach var="project" items="${projects}">
-								<option value="${project.getLiveProjectNo()}">
-									<c:out value="${project.getProjectShortName()}"></c:out>
-								</option>
-							</c:forEach>
-							<script>
-								$(
-										'#projectContainer option[value="${selectedProject.getLiveProjectNo()}"]')
-										.prop('selected', true);
-							</script>
-						</select>
+			<div class="row form-inline">
+				<div class="col-md-4">
+					<label for="projects">Select Project</label>
+				</div>
+				<div class="col-md-4">
+					<div class="checkbox">
+						<input type="checkbox" style="margin-right: 5px;" />
 					</div>
+					<label for="selectedStage">Select Stage</label>
+				</div>
+				<div class="col-md-4">
+					<div class="checkbox">
+						<input type="checkbox" style="margin-right: 5px;" />
+					</div>
+					<label for="selectedTask">Select Task</label>
 				</div>
 			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-					<div id="stageContainer" class="form-group">
-						<label for="selectedStage">Select Stage</label> <select
-							class="form-control" id="stages" name="stages"
-							style="width: 250px;">
-							<c:forEach var="stage" items="${selectedProject.getLiveProjectStages()}">
-								<option value="${stage.getLiveProjectStageNo()}">
-									<c:out value="${stage.getStageNo().getStageName()}"></c:out>
-								</option>
-							</c:forEach>
-							<script>
-								$(
-										'#stageContainer option[value="-1"]')
-										.prop('selected', true);
-							</script>
-						</select>
+			<div class="row ">
+				<div class="col-md-4">
+					<div class="form-group">
+						<div id="projectContainer" class="form-group">
+							<select class="form-control" id="projects" name="projects"
+								style="width: 250px;"
+								onchange="loadStagesForProject(this.value);">
+								<c:forEach var="project" items="${projects}">
+									<option value="${project.getLiveProjectNo()}">
+										<c:out value="${project.getProjectShortName()}"></c:out>
+									</option>
+								</c:forEach>
+								<script>
+									$(
+											'#projectContainer option[value="${selectedProject.getLiveProjectNo()}"]')
+											.prop('selected', true);
+								</script>
+							</select>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-					<div id="taskContainer" class="form-group">
-						<label for="selectedTask">Select Task</label> <select
-							class="form-control" id="tasks" name="tasks"
-							style="width: 250px;">
-							<option></option>
-						</select>
+				<div class="col-md-4">
+					<div class="form-group">
+						<div id="stageContainer" class="form-group">
+							<select class="form-control" id="stages" name="stages"
+								style="width: 250px;"
+								onchange="loadTasksForStage($('#projects').val(), this.value);">
+								<c:forEach var="stage"
+									items="${selectedProject.getLiveProjectStages()}">
+									<option value="${stage.getStageNo().getStageNo()}">
+										<c:out value="${stage.getStageNo().getStageName()}"></c:out>
+									</option>
+								</c:forEach>
+								<script>
+									$(
+											'#stageContainer option[value="${selectedStage.getLiveProjectStageNo()}"]')
+											.prop('selected', true);
+								</script>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<div id="taskContainer" class="form-group">
+							<select class="form-control" id="tasks" name="tasks"
+								style="width: 250px;">
+								<c:forEach var="task"
+									items="${selectedStage.getLiveProjectStageTasks()}">
+									<option value="${task.getTaskNo().getTaskNo()}">
+										<c:out value="${task.getTaskNo().getTaskName()}"></c:out>
+									</option>
+								</c:forEach>
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -102,6 +126,14 @@
 			</tfoot>
 
 			<tbody>
+				<c:if test="">
+					<c:forEach var="stage"
+						items="${selectedProject.getLiveProjectStages()}">
+						<option value="${stage.getStageNo().getStageNo()}">
+							<c:out value="${stage.getStageNo().getStageName()}"></c:out>
+						</option>
+					</c:forEach>
+				</c:if>
 				<tr role="row" class="odd">
 					<td>1</td>
 					<td class="sorting_1">Functional Requirements</td>
@@ -127,23 +159,21 @@
 		</table>
 	</div>
 	<script>
-		$(document).ready(
-				function() {
-					var table = $('#example').DataTable();
-
-					$('#example tbody').on('click', 'tr', function() {
-						$(this).toggleClass('selected');
-					});
-
-					$('#button').click(
-							function() {
-								alert(table.rows('.selected').data().length
-										+ ' row(s) selected');
-							});
-				});
+		$(document).ready(function() {
+			var table = $('#example').DataTable();
+			$('#example tbody').on('click', 'tr', function() {
+				$(this).toggleClass('selected');
+			});
+		});
 
 		var loadStagesForProject = function(projectId) {
-			//$("#stages").
+			window.location.href = "${context}/document/project?pid="
+					+ projectId;
+		};
+
+		var loadTasksForStage = function(projectId, stageId) {
+			window.location.href = "${context}/document/stage?pid=" + projectId
+					+ "&amp;sid=" + stageId;
 		};
 	</script>
 	<script
