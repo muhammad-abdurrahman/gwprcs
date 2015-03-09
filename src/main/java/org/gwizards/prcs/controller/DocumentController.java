@@ -28,6 +28,7 @@ public class DocumentController {
 		model.addAttribute("projects", liveProjects);
 		model.addAttribute("projectDocuments", liveProjectDouments);
 		model.addAttribute("selectedProject", liveProject);
+
 		return "document-main";
 	}
 

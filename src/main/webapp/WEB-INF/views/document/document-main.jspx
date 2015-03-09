@@ -23,27 +23,6 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Document Level</div>
 		<div class="panel-body">
-			<!-- 
-			<div class="row form-inline">
-				<div class="col-md-4">
-					<label for="projects">Select Project</label>
-				</div>
-				<div class="col-md-4 shift">
-					<div class="checkbox">
-						<input type="checkbox" id="stageCheck" name="stageCheck"
-							style="margin-right: 5px;" />
-					</div>
-					<label for="selectedStage">Select Stage</label>
-				</div>
-				<div class="col-md-4 shift">
-					<div class="checkbox">
-						<input type="checkbox" id="taskCheck" name="taskCheck"
-							style="margin-right: 5px;" />
-					</div>
-					<label for="selectedTask">Select Task</label>
-				</div>
-			</div>
-			 -->
 			<div class="row" style="margin-left: 5px;">
 				<div class="col-md-4">
 					<div class="form-group">
@@ -53,8 +32,7 @@
 							</div>
 							<div class="row">
 								<select class="form-control" id="projects" name="projects"
-									style="width: 250px;"
-									onchange="projectClickEvent(this.value);">
+									style="width: 250px;" onchange="projectClickEvent(this.value);">
 									<c:forEach var="project" items="${projects}">
 										<option value="${project.getLiveProjectNo()}">
 											<c:out value="${project.getProjectShortName()}"></c:out>
@@ -152,7 +130,11 @@
 					<th class="sorting" tabindex="0" aria-controls="example"
 						rowspan="1" colspan="1"
 						aria-label="Latest Version: activate to sort column ascending"
-						style="width: 130px;">Latest Version</th>
+						style="width: 326px;">Latest Version</th>
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="Permission Level: activate to sort column ascending"
+						style="width: 20px;">Permission Level</th>
 					<th class="sorting" tabindex="0" aria-controls="example"
 						rowspan="1" colspan="1"
 						aria-label="Actions: activate to sort column ascending"
@@ -165,19 +147,44 @@
 					<th rowspan="1" colspan="1">ID</th>
 					<th rowspan="1" colspan="1">Document Title</th>
 					<th rowspan="1" colspan="1">Latest Version</th>
+					<th rowspan="1" colspan="1">Permission Level</th>
 					<th rowspan="1" colspan="1">Actions</th>
 				</tr>
 			</tfoot>
 
 			<tbody>
-				<c:if test="">
-					<c:forEach var="stage"
-						items="${selectedProject.getLiveProjectStages()}">
-						<option value="${stage.getStageNo().getStageNo()}">
-							<c:out value="${stage.getStageNo().getStageName()}"></c:out>
-						</option>
-					</c:forEach>
-				</c:if>
+				<c:choose>
+					<c:when test="${param['sid'] == null }">
+						<!-- Project Level -->
+
+						<c:forEach var="projectDocument" items="${projectDocuments}">
+							<tr role="row" class="odd">
+								<td>${projectDocument.getLiveProjectDocumentNo()}</td>
+								<td class="sorting_1">${projectDocument.getLiveProjectDocumentName()}</td>
+
+								<c:set var="latestDocumentVersion"
+									value="${projectDocument.getLiveProjectDocumentVersions().size() > 0 ? projectDocument.getLiveProjectDocumentVersions().iterator().next() : null}" />
+								<c:forEach var="documentVersion"
+									items="${projectDocument.getLiveProjectDocumentVersions()}">
+									<c:if
+										test="${documentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() > latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }">
+										<c:set var="latestDocumentVersion" value="${documentVersion}" />
+									</c:if>
+								</c:forEach>
+
+								<td><a href="#">${latestDocumentVersion.getLiveProjectDocumentNo().getLiveProjectDocumentName()}
+										[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</a></td>
+								<td>${projectDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
+								<td><a href="#">View Versions</a> | <a href="#">Manage
+										Permissions</a></td>
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:when test="${param['sid'] != null && param['tid'] == null}">
+						
+					</c:when>
+				</c:choose>
+				<!-- 
 				<tr role="row" class="odd">
 					<td>1</td>
 					<td class="sorting_1">Functional Requirements</td>
@@ -198,7 +205,8 @@
 					<td><a href="#">v5-1012142100</a></td>
 					<td><a href="#">View Versions</a> | <a href="#">Manage
 							Permissions</a></td>
-				</tr>
+				</tr> 
+				-->
 			</tbody>
 		</table>
 	</div>
