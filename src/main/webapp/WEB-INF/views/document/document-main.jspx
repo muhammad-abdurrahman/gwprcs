@@ -38,11 +38,6 @@
 											<c:out value="${project.getProjectShortName()}"></c:out>
 										</option>
 									</c:forEach>
-									<script>
-									$(
-											'#projectContainer option[value="${selectedProject.getLiveProjectNo()}"]')
-											.prop('selected', true);
-								</script>
 								</select>
 							</div>
 						</div>
@@ -70,11 +65,6 @@
 											<c:out value="${stage.getStageNo().getStageName()}"></c:out>
 										</option>
 									</c:forEach>
-									<script>
-									$(
-											'#stageContainer option[value="${selectedStage.getLiveProjectStageNo()}"]')
-											.prop('selected', true);
-								</script>
 								</select>
 							</div>
 						</div>
@@ -102,11 +92,6 @@
 											<c:out value="${task.getTaskNo().getTaskName()}"></c:out>
 										</option>
 									</c:forEach>
-									<script>
-									$(
-											'#taskContainer option[value="${selectedTask.getLiveProjectStageTaskNo()}"]')
-											.prop('selected', true);
-								</script>
 								</select>
 							</div>
 						</div>
@@ -179,7 +164,8 @@
 								</c:forEach>
 
 								<td><a href="#">${latestDocumentVersion.getLiveProjectDocumentNo().getLiveProjectDocumentName()}
-										[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</a></td>
+										<small><i>[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</i></small>
+								</a></td>
 								<td>${projectDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
 								<td><a href="#">View Versions</a> | <a href="#">Manage
 										Permissions</a></td>
@@ -205,7 +191,8 @@
 								</c:forEach>
 
 								<td><a href="#">${latestDocumentVersion.getLiveProjectStageDocumentNo().getLiveProjectStageDocumentName()}
-										[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</a></td>
+										<small><i>[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</i></small>
+								</a></td>
 								<td>${stageDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
 								<td><a href="#">View Versions</a> | <a href="#">Manage
 										Permissions</a></td>
@@ -231,7 +218,8 @@
 								</c:forEach>
 
 								<td><a href="#">${latestDocumentVersion.getLiveProjectStageTaskDocumentNo().getLiveProjectStageTaskDocumentName()}
-										[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</a></td>
+										<small><i>[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</i></small>
+								</a></td>
 								<td>${taskDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
 								<td><a href="#">View Versions</a> | <a href="#">Manage
 										Permissions</a></td>
@@ -239,29 +227,6 @@
 						</c:forEach>
 					</c:when>
 				</c:choose>
-				<!-- 
-				<tr role="row" class="odd">
-					<td>1</td>
-					<td class="sorting_1">Functional Requirements</td>
-					<td><a href="#">v1-0912141501</a></td>
-					<td><a href="#">View Versions</a> | <a href="#">Manage
-							Permissions</a></td>
-				</tr>
-				<tr role="row" class="even">
-					<td>2</td>
-					<td class="sorting_1">Non Functional Requirements</td>
-					<td><a href="#">v3-0612141032</a></td>
-					<td><a href="#">View Versions</a> | <a href="#">Manage
-							Permissions</a></td>
-				</tr>
-				<tr role="row" class="odd">
-					<td>3</td>
-					<td class="sorting_1">Test Cases</td>
-					<td><a href="#">v5-1012142100</a></td>
-					<td><a href="#">View Versions</a> | <a href="#">Manage
-							Permissions</a></td>
-				</tr> 
-				-->
 			</tbody>
 		</table>
 	</div>
@@ -329,9 +294,22 @@
 	           }
 	        });
 	        
+	        $('#clearSelectionsBtn').click( function () {
+	        	 table.$('tr.selected').removeClass('selected');
+	        } );
+	        
 	        $('.btn.stretch').width(Math.max.apply(Math, $('.btn.stretch').map(function() {
 				return $(this).outerWidth();
 			}).get()));
+	        
+	        $('#projectContainer option[value="${selectedProject.getLiveProjectNo()}"]')
+			.prop('selected', true);
+	        
+	        $('#stageContainer option[value="${selectedStage.getLiveProjectStageNo()}"]')
+			.prop('selected', true);
+	        
+	        $('#taskContainer option[value="${selectedTask.getLiveProjectStageTaskNo()}"]')
+			.prop('selected', true);
 	        
 		});
 		
