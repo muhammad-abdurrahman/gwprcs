@@ -94,13 +94,19 @@
 							</div>
 							<div class="row">
 								<select class="form-control" id="tasks" name="tasks"
-									style="width: 250px;">
+									style="width: 250px;"
+									onchange="taskClickEvent($('#projects').val(), $('#stages').val(), this.value);">
 									<c:forEach var="task"
 										items="${selectedStage.getLiveProjectStageTasks()}">
 										<option value="${task.getTaskNo().getTaskNo()}">
 											<c:out value="${task.getTaskNo().getTaskName()}"></c:out>
 										</option>
 									</c:forEach>
+									<script>
+									$(
+											'#taskContainer option[value="${selectedTask.getLiveProjectStageTaskNo()}"]')
+											.prop('selected', true);
+								</script>
 								</select>
 							</div>
 						</div>
@@ -180,8 +186,57 @@
 							</tr>
 						</c:forEach>
 					</c:when>
-					<c:when test="${param['sid'] != null && param['tid'] == null}">
-						
+					<c:when test="${param['sid'] != null and param['tid'] == null}">
+						<!-- Stage Level -->
+
+						<c:forEach var="stageDocument" items="${stageDocuments}">
+							<tr role="row" class="odd">
+								<td>${stageDocument.getLiveProjectStageDocumentNo()}</td>
+								<td class="sorting_1">${stageDocument.getLiveProjectStageDocumentName()}</td>
+
+								<c:set var="latestDocumentVersion"
+									value="${stageDocument.getLiveProjectStageDocumentVersions().size() > 0 ? stageDocument.getLiveProjectStageDocumentVersions().iterator().next() : null}" />
+								<c:forEach var="documentVersion"
+									items="${stageDocument.getLiveProjectStageDocumentVersions()}">
+									<c:if
+										test="${documentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() > latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }">
+										<c:set var="latestDocumentVersion" value="${documentVersion}" />
+									</c:if>
+								</c:forEach>
+
+								<td><a href="#">${latestDocumentVersion.getLiveProjectStageDocumentNo().getLiveProjectStageDocumentName()}
+										[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</a></td>
+								<td>${stageDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
+								<td><a href="#">View Versions</a> | <a href="#">Manage
+										Permissions</a></td>
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:when test="${param['tid'] != null}">
+						<!-- Task Level -->
+
+						<c:forEach var="taskDocument" items="${taskDocuments}">
+							<tr role="row" class="odd">
+								<td>${taskDocument.getLiveProjectStageTaskDocumentNo()}</td>
+								<td class="sorting_1">${taskDocument.getLiveProjectStageTaskDocumentName()}</td>
+
+								<c:set var="latestDocumentVersion"
+									value="${taskDocument.getLiveProjectStageTaskDocumentVersions().size() > 0 ? taskDocument.getLiveProjectStageTaskDocumentVersions().iterator().next() : null}" />
+								<c:forEach var="documentVersion"
+									items="${taskDocument.getLiveProjectStageTaskDocumentVersions()}">
+									<c:if
+										test="${documentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() > latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }">
+										<c:set var="latestDocumentVersion" value="${documentVersion}" />
+									</c:if>
+								</c:forEach>
+
+								<td><a href="#">${latestDocumentVersion.getLiveProjectStageTaskDocumentNo().getLiveProjectStageTaskDocumentName()}
+										[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</a></td>
+								<td>${taskDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
+								<td><a href="#">View Versions</a> | <a href="#">Manage
+										Permissions</a></td>
+							</tr>
+						</c:forEach>
 					</c:when>
 				</c:choose>
 				<!-- 
@@ -221,6 +276,8 @@
 			<button name="deleteSelectedDocumentsBtn"
 				id="deleteSelectedDocumentsBtn" class="btn btn-default stretch">Delete
 				Selected Documents [All Versions]</button>
+			<button name="clearSelectionsBtn" id="clearSelectionsBtn"
+				class="btn btn-default stretch">Clear All Selections</button>
 		</div>
 	</div>
 	<script>
@@ -286,7 +343,13 @@
 		var stageClickEvent = function(projectId, stageId) {
 			window.location.href = "${context}/document/stage?pid=" + projectId
 					+ "&amp;sid=" + stageId;
-		};	
+		};
+		
+		var taskClickEvent = function(projectId, stageId, taskId) {
+			window.location.href = "${context}/document/task?pid=" + projectId
+					+ "&amp;sid=" + stageId
+					+ "&amp;tid=" + taskId;
+		};
 	</script>
 	<script
 		src="http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js">

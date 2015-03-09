@@ -7,6 +7,8 @@ import org.gwizards.prcs.LiveProject;
 import org.gwizards.prcs.LiveProjectDocument;
 import org.gwizards.prcs.LiveProjectStage;
 import org.gwizards.prcs.LiveProjectStageDocument;
+import org.gwizards.prcs.LiveProjectStageTask;
+import org.gwizards.prcs.LiveProjectStageTaskDocument;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +47,26 @@ public class DocumentController {
 		model.addAttribute("selectedProject", liveProject);
 		model.addAttribute("selectedStage", stage);
 		model.addAttribute("stageDocuments", stageDocuments);
+		
+		return "document-main";
+	}
+	
+	@RequestMapping(value = "/task", method = RequestMethod.GET)
+	public String showDocumentsForTask(@RequestParam(value = "pid") int pid,
+			@RequestParam(value = "sid") int sid, @RequestParam(value = "tid") int tid, Model model) {
+		LiveProject liveProject = LiveProject.findLiveProject(pid);
+		List<LiveProject> liveProjects = LiveProject.findAllLiveProjects();
+		LiveProjectStage stage = LiveProjectStage.findLiveProjectStage(sid);
+		LiveProjectStageTask task = LiveProjectStageTask.findLiveProjectStageTask(tid);
+		Set<LiveProjectStageTaskDocument> taskDocuments = task
+				.getLiveProjectStageTaskDocuments();
+
+		model.addAttribute("projects", liveProjects);
+		model.addAttribute("selectedProject", liveProject);
+		model.addAttribute("selectedStage", stage);
+		model.addAttribute("selectedTask", task);
+		model.addAttribute("taskDocuments", taskDocuments);
+		
 		return "document-main";
 	}
 }
