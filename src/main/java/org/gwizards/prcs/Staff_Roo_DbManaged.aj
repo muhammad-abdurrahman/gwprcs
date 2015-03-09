@@ -13,9 +13,6 @@ import javax.persistence.OneToMany;
 import org.gwizards.prcs.DocumentVersion;
 import org.gwizards.prcs.Lead;
 import org.gwizards.prcs.LeadFollowup;
-import org.gwizards.prcs.LiveProjectDocument;
-import org.gwizards.prcs.LiveProjectStageDocument;
-import org.gwizards.prcs.LiveProjectStageTaskDocument;
 import org.gwizards.prcs.Review;
 import org.gwizards.prcs.Staff;
 import org.gwizards.prcs.StaffProject;
@@ -37,15 +34,6 @@ privileged aspect Staff_Roo_DbManaged {
     
     @OneToMany(mappedBy = "staffNo")
     private Set<LeadFollowup> Staff.leadFollowups;
-    
-    @OneToMany(mappedBy = "authorId")
-    private Set<LiveProjectDocument> Staff.liveProjectDocuments;
-    
-    @OneToMany(mappedBy = "authorId")
-    private Set<LiveProjectStageDocument> Staff.liveProjectStageDocuments;
-    
-    @OneToMany(mappedBy = "authorId")
-    private Set<LiveProjectStageTaskDocument> Staff.liveProjectStageTaskDocuments;
     
     @OneToMany(mappedBy = "authorNo")
     private Set<Review> Staff.reviews;
@@ -108,30 +96,6 @@ privileged aspect Staff_Roo_DbManaged {
     
     public void Staff.setLeadFollowups(Set<LeadFollowup> leadFollowups) {
         this.leadFollowups = leadFollowups;
-    }
-    
-    public Set<LiveProjectDocument> Staff.getLiveProjectDocuments() {
-        return liveProjectDocuments;
-    }
-    
-    public void Staff.setLiveProjectDocuments(Set<LiveProjectDocument> liveProjectDocuments) {
-        this.liveProjectDocuments = liveProjectDocuments;
-    }
-    
-    public Set<LiveProjectStageDocument> Staff.getLiveProjectStageDocuments() {
-        return liveProjectStageDocuments;
-    }
-    
-    public void Staff.setLiveProjectStageDocuments(Set<LiveProjectStageDocument> liveProjectStageDocuments) {
-        this.liveProjectStageDocuments = liveProjectStageDocuments;
-    }
-    
-    public Set<LiveProjectStageTaskDocument> Staff.getLiveProjectStageTaskDocuments() {
-        return liveProjectStageTaskDocuments;
-    }
-    
-    public void Staff.setLiveProjectStageTaskDocuments(Set<LiveProjectStageTaskDocument> liveProjectStageTaskDocuments) {
-        this.liveProjectStageTaskDocuments = liveProjectStageTaskDocuments;
     }
     
     public Set<Review> Staff.getReviews() {

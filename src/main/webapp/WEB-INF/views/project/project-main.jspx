@@ -9,20 +9,20 @@
 		selectNavigationTab('project_li');
 	</script>
 	<style>
-	.btn {
-		margin-bottom: 10px;
-	}
+		.btn {
+			margin-bottom: 10px;
+		}
+		
+		.panel.panel-info {
+			margin-bottom: 12px;
+		}
 	
-	.panel.panel-info {
-		margin-bottom: 12px;
-	}
-
-	@media ( min-width : 992px) {
-	.panel.panel-info { 
-		margin-bottom: 0;
-	}
-}
-</style>
+		@media ( min-width : 992px) {
+			.panel.panel-info { 
+				margin-bottom: 0;
+			}
+		}
+	</style>
 
 	<div class="panel-group" id="accordion" role="tablist"
 		aria-multiselectable="true">

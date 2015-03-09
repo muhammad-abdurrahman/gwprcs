@@ -12,20 +12,12 @@ import org.gwizards.prcs.TaskReview;
 privileged aspect TaskReview_Roo_DbManaged {
     
     @ManyToOne
-    @JoinColumn(name = "task_no", referencedColumnName = "task_no", nullable = false)
-    private Task TaskReview.taskNo;
-    
-    @ManyToOne
     @JoinColumn(name = "review_no", referencedColumnName = "review_no", nullable = false)
     private Review TaskReview.reviewNo;
     
-    public Task TaskReview.getTaskNo() {
-        return taskNo;
-    }
-    
-    public void TaskReview.setTaskNo(Task taskNo) {
-        this.taskNo = taskNo;
-    }
+    @ManyToOne
+    @JoinColumn(name = "task_no", referencedColumnName = "task_no", nullable = false)
+    private Task TaskReview.taskNo;
     
     public Review TaskReview.getReviewNo() {
         return reviewNo;
@@ -33,6 +25,14 @@ privileged aspect TaskReview_Roo_DbManaged {
     
     public void TaskReview.setReviewNo(Review reviewNo) {
         this.reviewNo = reviewNo;
+    }
+    
+    public Task TaskReview.getTaskNo() {
+        return taskNo;
+    }
+    
+    public void TaskReview.setTaskNo(Task taskNo) {
+        this.taskNo = taskNo;
     }
     
 }

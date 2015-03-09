@@ -20,17 +20,7 @@ public class DocumentController {
 	public String showDocumentsForProject(@RequestParam(value = "pid") int pid,
 			Model model) {
 		LiveProject liveProject = LiveProject.findLiveProject(pid);
-
 		liveProject.getLiveProjectStages();
-		// Set<LiveProjectStage> lpses =
-		// LiveProject.findLiveProject(1).getLiveProjectStages();
-		// for (LiveProjectStage lps : lpses){
-		// lps.getStageNo().
-		// }
-
-		// LiveProjectStage lps = LiveProjectStage.findLiveProjectStage(1);
-		// lps.getStageNo().getStageNo();
-
 		Set<LiveProjectDocument> liveProjectDouments = liveProject
 				.getLiveProjectDocuments();
 		List<LiveProject> liveProjects = LiveProject.findAllLiveProjects();

@@ -3,39 +3,27 @@
 
 package org.gwizards.prcs;
 
-import java.util.Set;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import org.gwizards.prcs.DocumentVersion;
 import org.gwizards.prcs.LiveProjectDocument;
 import org.gwizards.prcs.LiveProjectDocumentVersion;
 
 privileged aspect LiveProjectDocumentVersion_Roo_DbManaged {
     
-    @OneToMany(mappedBy = "documentVersionNo")
-    private Set<LiveProjectDocumentVersion> LiveProjectDocumentVersion.liveProjectDocumentVersions;
-    
     @ManyToOne
-    @JoinColumn(name = "document_version_no", referencedColumnName = "live_project_document_version_no", nullable = false, insertable = false, updatable = false)
-    private LiveProjectDocumentVersion LiveProjectDocumentVersion.documentVersionNo;
+    @JoinColumn(name = "document_version_no", referencedColumnName = "document_version_no", nullable = false)
+    private DocumentVersion LiveProjectDocumentVersion.documentVersionNo;
     
     @ManyToOne
     @JoinColumn(name = "live_project_document_no", referencedColumnName = "live_project_document_no", nullable = false)
     private LiveProjectDocument LiveProjectDocumentVersion.liveProjectDocumentNo;
     
-    public Set<LiveProjectDocumentVersion> LiveProjectDocumentVersion.getLiveProjectDocumentVersions() {
-        return liveProjectDocumentVersions;
-    }
-    
-    public void LiveProjectDocumentVersion.setLiveProjectDocumentVersions(Set<LiveProjectDocumentVersion> liveProjectDocumentVersions) {
-        this.liveProjectDocumentVersions = liveProjectDocumentVersions;
-    }
-    
-    public LiveProjectDocumentVersion LiveProjectDocumentVersion.getDocumentVersionNo() {
+    public DocumentVersion LiveProjectDocumentVersion.getDocumentVersionNo() {
         return documentVersionNo;
     }
     
-    public void LiveProjectDocumentVersion.setDocumentVersionNo(LiveProjectDocumentVersion documentVersionNo) {
+    public void LiveProjectDocumentVersion.setDocumentVersionNo(DocumentVersion documentVersionNo) {
         this.documentVersionNo = documentVersionNo;
     }
     

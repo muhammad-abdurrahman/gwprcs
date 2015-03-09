@@ -3,21 +3,16 @@
 
 package org.gwizards.prcs;
 
-import java.util.Calendar;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import org.gwizards.prcs.DocumentPermission;
 import org.gwizards.prcs.LiveProjectStage;
 import org.gwizards.prcs.LiveProjectStageDocument;
 import org.gwizards.prcs.LiveProjectStageDocumentVersion;
-import org.gwizards.prcs.Staff;
-import org.springframework.format.annotation.DateTimeFormat;
 
 privileged aspect LiveProjectStageDocument_Roo_DbManaged {
     
@@ -25,16 +20,12 @@ privileged aspect LiveProjectStageDocument_Roo_DbManaged {
     private Set<LiveProjectStageDocumentVersion> LiveProjectStageDocument.liveProjectStageDocumentVersions;
     
     @ManyToOne
-    @JoinColumn(name = "live_project_stage_no", referencedColumnName = "live_project_stage_no", nullable = false)
-    private LiveProjectStage LiveProjectStageDocument.liveProjectStageNo;
-    
-    @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "staff_no", nullable = false)
-    private Staff LiveProjectStageDocument.authorId;
-    
-    @ManyToOne
     @JoinColumn(name = "document_permission_no", referencedColumnName = "document_permission_no", nullable = false)
     private DocumentPermission LiveProjectStageDocument.documentPermissionNo;
+    
+    @ManyToOne
+    @JoinColumn(name = "live_project_stage_no", referencedColumnName = "live_project_stage_no", nullable = false)
+    private LiveProjectStage LiveProjectStageDocument.liveProjectStageNo;
     
     @Column(name = "live_project_stage_document_name", columnDefinition = "VARCHAR", length = 45)
     @NotNull
@@ -44,12 +35,6 @@ privileged aspect LiveProjectStageDocument_Roo_DbManaged {
     @NotNull
     private String LiveProjectStageDocument.liveProjectStageDocumentType;
     
-    @Column(name = "creation_date", columnDefinition = "DATETIME")
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "MM")
-    private Calendar LiveProjectStageDocument.creationDate;
-    
     public Set<LiveProjectStageDocumentVersion> LiveProjectStageDocument.getLiveProjectStageDocumentVersions() {
         return liveProjectStageDocumentVersions;
     }
@@ -58,28 +43,20 @@ privileged aspect LiveProjectStageDocument_Roo_DbManaged {
         this.liveProjectStageDocumentVersions = liveProjectStageDocumentVersions;
     }
     
-    public LiveProjectStage LiveProjectStageDocument.getLiveProjectStageNo() {
-        return liveProjectStageNo;
-    }
-    
-    public void LiveProjectStageDocument.setLiveProjectStageNo(LiveProjectStage liveProjectStageNo) {
-        this.liveProjectStageNo = liveProjectStageNo;
-    }
-    
-    public Staff LiveProjectStageDocument.getAuthorId() {
-        return authorId;
-    }
-    
-    public void LiveProjectStageDocument.setAuthorId(Staff authorId) {
-        this.authorId = authorId;
-    }
-    
     public DocumentPermission LiveProjectStageDocument.getDocumentPermissionNo() {
         return documentPermissionNo;
     }
     
     public void LiveProjectStageDocument.setDocumentPermissionNo(DocumentPermission documentPermissionNo) {
         this.documentPermissionNo = documentPermissionNo;
+    }
+    
+    public LiveProjectStage LiveProjectStageDocument.getLiveProjectStageNo() {
+        return liveProjectStageNo;
+    }
+    
+    public void LiveProjectStageDocument.setLiveProjectStageNo(LiveProjectStage liveProjectStageNo) {
+        this.liveProjectStageNo = liveProjectStageNo;
     }
     
     public String LiveProjectStageDocument.getLiveProjectStageDocumentName() {
@@ -96,14 +73,6 @@ privileged aspect LiveProjectStageDocument_Roo_DbManaged {
     
     public void LiveProjectStageDocument.setLiveProjectStageDocumentType(String liveProjectStageDocumentType) {
         this.liveProjectStageDocumentType = liveProjectStageDocumentType;
-    }
-    
-    public Calendar LiveProjectStageDocument.getCreationDate() {
-        return creationDate;
-    }
-    
-    public void LiveProjectStageDocument.setCreationDate(Calendar creationDate) {
-        this.creationDate = creationDate;
     }
     
 }

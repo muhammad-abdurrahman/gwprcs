@@ -45,7 +45,7 @@
     <table name="document_permission">
         <column name="document_permission_no" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
         <column name="document_permission_type" primaryKey="false" required="true" scale="0" size="45" type="12,VARCHAR"/>
-        <foreign-key foreignTable="live_project_document" name="fk_lpd_dpn" onDelete="none" onUpdate="none">
+        <foreign-key foreignTable="live_project_document" name="fk_lpd_dp" onDelete="none" onUpdate="none">
             <option key="exported" value="true"/>
             <reference foreign="document_permission_no" local="document_permission_no"/>
         </foreign-key>
@@ -68,6 +68,10 @@
         <foreign-key foreignTable="staff" name="fk_author_id" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
             <reference foreign="staff_no" local="author_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="live_project_document_version" name="fk_lpdv_dv" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="document_version_no" local="document_version_no"/>
         </foreign-key>
         <foreign-key foreignTable="live_project_stage_document_version" name="fk_lpsdv_dv" onDelete="none" onUpdate="none">
             <option key="exported" value="true"/>
@@ -285,14 +289,8 @@
         <column name="live_project_document_name" primaryKey="false" required="true" scale="0" size="45" type="12,VARCHAR"/>
         <column name="live_project_document_type" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="live_project_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <column name="author_id" primaryKey="false" required="false" scale="0" size="10" type="4,INT"/>
-        <column name="creation_date" primaryKey="false" required="true" scale="0" size="19" type="93,DATETIME"/>
         <column name="document_permission_no" primaryKey="false" required="false" scale="0" size="10" type="4,INT"/>
-        <foreign-key foreignTable="staff" name="fk_lpd_author" onDelete="none" onUpdate="none">
-            <option key="exported" value="false"/>
-            <reference foreign="staff_no" local="author_id"/>
-        </foreign-key>
-        <foreign-key foreignTable="document_permission" name="fk_lpd_dpn" onDelete="none" onUpdate="none">
+        <foreign-key foreignTable="document_permission" name="fk_lpd_dp" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
             <reference foreign="document_permission_no" local="document_permission_no"/>
         </foreign-key>
@@ -310,17 +308,11 @@
         <index name="fk_live_project_no_idx">
             <index-column name="live_project_no"/>
         </index>
-        <index name="fk_author_id_idx">
-            <index-column name="author_id"/>
-        </index>
         <index name="fk_document_permission_no_idx">
             <index-column name="document_permission_no"/>
         </index>
         <index name="fk_lpd_lpn_idx">
             <index-column name="live_project_no"/>
-        </index>
-        <index name="fk_lpd_author_idx">
-            <index-column name="author_id"/>
         </index>
         <index name="fk_lpd_dpn_idx">
             <index-column name="document_permission_no"/>
@@ -330,17 +322,13 @@
         <column name="live_project_document_version_no" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
         <column name="live_project_document_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
         <column name="document_version_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <foreign-key foreignTable="live_project_document_version" name="fk_lpdv_dv" onDelete="none" onUpdate="none">
+        <foreign-key foreignTable="document_version" name="fk_lpdv_dv" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
-            <reference foreign="live_project_document_version_no" local="document_version_no"/>
+            <reference foreign="document_version_no" local="document_version_no"/>
         </foreign-key>
         <foreign-key foreignTable="live_project_document" name="fk_lpdv_lpd" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
             <reference foreign="live_project_document_no" local="live_project_document_no"/>
-        </foreign-key>
-        <foreign-key foreignTable="live_project_document_version" name="fk_lpdv_dv" onDelete="none" onUpdate="none">
-            <option key="exported" value="true"/>
-            <reference foreign="document_version_no" local="live_project_document_version_no"/>
         </foreign-key>
         <unique name="PRIMARY">
             <unique-column name="live_project_document_version_no"/>
@@ -409,20 +397,14 @@
         <column name="live_project_stage_document_name" primaryKey="false" required="true" scale="0" size="45" type="12,VARCHAR"/>
         <column name="live_project_stage_document_type" primaryKey="false" required="true" scale="0" size="45" type="12,VARCHAR"/>
         <column name="live_project_stage_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <column name="author_id" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <column name="creation_date" primaryKey="false" required="true" scale="0" size="19" type="93,DATETIME"/>
         <column name="document_permission_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <foreign-key foreignTable="live_project_stage" name="fk_lpsd_lps" onDelete="none" onUpdate="none">
-            <option key="exported" value="false"/>
-            <reference foreign="live_project_stage_no" local="live_project_stage_no"/>
-        </foreign-key>
-        <foreign-key foreignTable="staff" name="fk_lpsd_author" onDelete="none" onUpdate="none">
-            <option key="exported" value="false"/>
-            <reference foreign="staff_no" local="author_id"/>
-        </foreign-key>
         <foreign-key foreignTable="document_permission" name="fk_lpsd_dp" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
             <reference foreign="document_permission_no" local="document_permission_no"/>
+        </foreign-key>
+        <foreign-key foreignTable="live_project_stage" name="fk_lpsd_lps" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="live_project_stage_no" local="live_project_stage_no"/>
         </foreign-key>
         <foreign-key foreignTable="live_project_stage_document_version" name="fk_lpsdv_lpsd" onDelete="none" onUpdate="none">
             <option key="exported" value="true"/>
@@ -433,9 +415,6 @@
         </unique>
         <index name="fk_lpsd_lps_idx">
             <index-column name="live_project_stage_no"/>
-        </index>
-        <index name="fk_lpsd_author_idx">
-            <index-column name="author_id"/>
         </index>
         <index name="fk_lpsd_dp_idx">
             <index-column name="document_permission_no"/>
@@ -494,20 +473,14 @@
         <column name="live_project_stage_task_document_name" primaryKey="false" required="true" scale="0" size="45" type="12,VARCHAR"/>
         <column name="live_project_stage_task_document_type" primaryKey="false" required="true" scale="0" size="45" type="12,VARCHAR"/>
         <column name="live_project_stage_task_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <column name="author_id" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <column name="creation_date" primaryKey="false" required="true" scale="0" size="19" type="93,DATETIME"/>
         <column name="document_permission_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <foreign-key foreignTable="live_project_stage_task" name="fk_lpstd_lpst" onDelete="none" onUpdate="none">
-            <option key="exported" value="false"/>
-            <reference foreign="live_project_stage_task_no" local="live_project_stage_task_no"/>
-        </foreign-key>
-        <foreign-key foreignTable="staff" name="fk_lpstd_author" onDelete="none" onUpdate="none">
-            <option key="exported" value="false"/>
-            <reference foreign="staff_no" local="author_id"/>
-        </foreign-key>
         <foreign-key foreignTable="document_permission" name="fk_lpstd_dp" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
             <reference foreign="document_permission_no" local="document_permission_no"/>
+        </foreign-key>
+        <foreign-key foreignTable="live_project_stage_task" name="fk_lpstd_lpst" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="live_project_stage_task_no" local="live_project_stage_task_no"/>
         </foreign-key>
         <foreign-key foreignTable="live_project_stage_task_document_version" name="fk_lpstdv_lpstd" onDelete="none" onUpdate="none">
             <option key="exported" value="true"/>
@@ -518,9 +491,6 @@
         </unique>
         <index name="fk_lpstd_lpst_idx">
             <index-column name="live_project_stage_task_no"/>
-        </index>
-        <index name="fk_lpstd_author_idx">
-            <index-column name="author_id"/>
         </index>
         <index name="fk_lpstd_dp_idx">
             <index-column name="document_permission_no"/>
@@ -676,18 +646,6 @@
         <foreign-key foreignTable="lead_followup" name="lead_followup_fk3" onDelete="none" onUpdate="none">
             <option key="exported" value="true"/>
             <reference foreign="staff_no" local="staff_no"/>
-        </foreign-key>
-        <foreign-key foreignTable="live_project_document" name="fk_lpd_author" onDelete="none" onUpdate="none">
-            <option key="exported" value="true"/>
-            <reference foreign="author_id" local="staff_no"/>
-        </foreign-key>
-        <foreign-key foreignTable="live_project_stage_document" name="fk_lpsd_author" onDelete="none" onUpdate="none">
-            <option key="exported" value="true"/>
-            <reference foreign="author_id" local="staff_no"/>
-        </foreign-key>
-        <foreign-key foreignTable="live_project_stage_task_document" name="fk_lpstd_author" onDelete="none" onUpdate="none">
-            <option key="exported" value="true"/>
-            <reference foreign="author_id" local="staff_no"/>
         </foreign-key>
         <foreign-key foreignTable="review" name="fk_review_author" onDelete="none" onUpdate="none">
             <option key="exported" value="true"/>
@@ -1098,13 +1056,13 @@
         <column name="task_review_no" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
         <column name="task_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
         <column name="review_no" primaryKey="false" required="true" scale="0" size="10" type="4,INT"/>
-        <foreign-key foreignTable="task" name="fk_tr_task" onDelete="none" onUpdate="none">
-            <option key="exported" value="false"/>
-            <reference foreign="task_no" local="task_no"/>
-        </foreign-key>
         <foreign-key foreignTable="review" name="fk_tr_review" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
             <reference foreign="review_no" local="review_no"/>
+        </foreign-key>
+        <foreign-key foreignTable="task" name="fk_tr_task" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="task_no" local="task_no"/>
         </foreign-key>
         <unique name="PRIMARY">
             <unique-column name="task_review_no"/>

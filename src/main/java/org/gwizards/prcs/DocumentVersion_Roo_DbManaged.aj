@@ -13,12 +13,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import org.gwizards.prcs.DocumentVersion;
+import org.gwizards.prcs.LiveProjectDocumentVersion;
 import org.gwizards.prcs.LiveProjectStageDocumentVersion;
 import org.gwizards.prcs.LiveProjectStageTaskDocumentVersion;
 import org.gwizards.prcs.Staff;
 import org.springframework.format.annotation.DateTimeFormat;
 
 privileged aspect DocumentVersion_Roo_DbManaged {
+    
+    @OneToMany(mappedBy = "documentVersionNo")
+    private Set<LiveProjectDocumentVersion> DocumentVersion.liveProjectDocumentVersions;
     
     @OneToMany(mappedBy = "documentVersionNo")
     private Set<LiveProjectStageDocumentVersion> DocumentVersion.liveProjectStageDocumentVersions;
@@ -35,6 +39,14 @@ privileged aspect DocumentVersion_Roo_DbManaged {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "MM")
     private Calendar DocumentVersion.documentVersionCreationDate;
+    
+    public Set<LiveProjectDocumentVersion> DocumentVersion.getLiveProjectDocumentVersions() {
+        return liveProjectDocumentVersions;
+    }
+    
+    public void DocumentVersion.setLiveProjectDocumentVersions(Set<LiveProjectDocumentVersion> liveProjectDocumentVersions) {
+        this.liveProjectDocumentVersions = liveProjectDocumentVersions;
+    }
     
     public Set<LiveProjectStageDocumentVersion> DocumentVersion.getLiveProjectStageDocumentVersions() {
         return liveProjectStageDocumentVersions;

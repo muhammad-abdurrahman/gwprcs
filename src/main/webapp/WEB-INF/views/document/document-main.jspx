@@ -7,80 +7,124 @@
 	<script>
 		selectNavigationTab('document_li');
 	</script>
+	<style>
+.shift {
+	margin-left: 22px;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media ( min-width : 768px) {
+	.shift {
+		margin-left: 0;
+	}
+}
+}
+</style>
 	<div class="panel panel-default">
 		<div class="panel-heading">Document Level</div>
 		<div class="panel-body">
+			<!-- 
 			<div class="row form-inline">
 				<div class="col-md-4">
 					<label for="projects">Select Project</label>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 shift">
 					<div class="checkbox">
-						<input type="checkbox" style="margin-right: 5px;" />
+						<input type="checkbox" id="stageCheck" name="stageCheck"
+							style="margin-right: 5px;" />
 					</div>
 					<label for="selectedStage">Select Stage</label>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 shift">
 					<div class="checkbox">
-						<input type="checkbox" style="margin-right: 5px;" />
+						<input type="checkbox" id="taskCheck" name="taskCheck"
+							style="margin-right: 5px;" />
 					</div>
 					<label for="selectedTask">Select Task</label>
 				</div>
 			</div>
-			<div class="row ">
+			 -->
+			<div class="row" style="margin-left: 5px;">
 				<div class="col-md-4">
 					<div class="form-group">
 						<div id="projectContainer" class="form-group">
-							<select class="form-control" id="projects" name="projects"
-								style="width: 250px;"
-								onchange="loadStagesForProject(this.value);">
-								<c:forEach var="project" items="${projects}">
-									<option value="${project.getLiveProjectNo()}">
-										<c:out value="${project.getProjectShortName()}"></c:out>
-									</option>
-								</c:forEach>
-								<script>
+							<div class="row form-inline">
+								<label for="projects">Select Project</label>
+							</div>
+							<div class="row">
+								<select class="form-control" id="projects" name="projects"
+									style="width: 250px;"
+									onchange="projectClickEvent(this.value);">
+									<c:forEach var="project" items="${projects}">
+										<option value="${project.getLiveProjectNo()}">
+											<c:out value="${project.getProjectShortName()}"></c:out>
+										</option>
+									</c:forEach>
+									<script>
 									$(
 											'#projectContainer option[value="${selectedProject.getLiveProjectNo()}"]')
 											.prop('selected', true);
 								</script>
-							</select>
+								</select>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
 						<div id="stageContainer" class="form-group">
-							<select class="form-control" id="stages" name="stages"
-								style="width: 250px;"
-								onchange="loadTasksForStage($('#projects').val(), this.value);">
-								<c:forEach var="stage"
-									items="${selectedProject.getLiveProjectStages()}">
-									<option value="${stage.getStageNo().getStageNo()}">
-										<c:out value="${stage.getStageNo().getStageName()}"></c:out>
-									</option>
-								</c:forEach>
-								<script>
+							<div class="row form-inline">
+								<div class="shift">
+									<div class="checkbox">
+										<input type="checkbox" id="stageCheck" name="stageCheck"
+											style="margin-right: 5px;" />
+									</div>
+									<label for="selectedStage">Select Stage</label>
+								</div>
+							</div>
+							<div class="row">
+								<select class="form-control" id="stages" name="stages"
+									style="width: 250px;"
+									onchange="stageClickEvent($('#projects').val(), this.value);">
+									<c:forEach var="stage"
+										items="${selectedProject.getLiveProjectStages()}">
+										<option value="${stage.getStageNo().getStageNo()}">
+											<c:out value="${stage.getStageNo().getStageName()}"></c:out>
+										</option>
+									</c:forEach>
+									<script>
 									$(
 											'#stageContainer option[value="${selectedStage.getLiveProjectStageNo()}"]')
 											.prop('selected', true);
 								</script>
-							</select>
+								</select>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
 						<div id="taskContainer" class="form-group">
-							<select class="form-control" id="tasks" name="tasks"
-								style="width: 250px;">
-								<c:forEach var="task"
-									items="${selectedStage.getLiveProjectStageTasks()}">
-									<option value="${task.getTaskNo().getTaskNo()}">
-										<c:out value="${task.getTaskNo().getTaskName()}"></c:out>
-									</option>
-								</c:forEach>
-							</select>
+							<div class="row form-inline">
+								<div class="shift">
+									<div class="checkbox">
+										<input type="checkbox" id="taskCheck" name="taskCheck"
+											style="margin-right: 5px;" />
+									</div>
+									<label for="selectedTask">Select Task</label>
+								</div>
+							</div>
+							<div class="row">
+								<select class="form-control" id="tasks" name="tasks"
+									style="width: 250px;">
+									<c:forEach var="task"
+										items="${selectedStage.getLiveProjectStageTasks()}">
+										<option value="${task.getTaskNo().getTaskNo()}">
+											<c:out value="${task.getTaskNo().getTaskName()}"></c:out>
+										</option>
+									</c:forEach>
+								</select>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -158,23 +202,83 @@
 			</tbody>
 		</table>
 	</div>
+	<br />
+	<div class="panel panel-default" style="padding: 12px 30px 12px 30px;">
+		<div class="row text-center">
+			<button name="uploadNewDocumentBtn" id="uploadNewDocumentBtn"
+				class="btn btn-default stretch">Upload New Document</button>
+			<button name="manageSelectedDocumentsBtn"
+				id="manageSelectedDocumentsBtn" class="btn btn-default stretch">Manage
+				Selected Document's Permissions</button>
+			<button name="deleteSelectedDocumentsBtn"
+				id="deleteSelectedDocumentsBtn" class="btn btn-default stretch">Delete
+				Selected Documents [All Versions]</button>
+		</div>
+	</div>
 	<script>
 		$(document).ready(function() {
 			var table = $('#example').DataTable();
 			$('#example tbody').on('click', 'tr', function() {
 				$(this).toggleClass('selected');
 			});
-		});
+			
+			if(${param["sid"] != null}){
+				$("#stageCheck").prop('checked', true);
+			}
+			
+			if(!$("#stageCheck").is(":checked"))
+	        {
+	            $("#stages").prop("disabled",true);
+	        }
 
-		var loadStagesForProject = function(projectId) {
+	        $("#stageCheck").click(function() {
+	           if ($(this).is(":checked")) { 
+	              $("#stages").prop("disabled", false);
+				  $( "#stages" ).trigger( "change" );
+	           } else {
+	              $("#stages").prop("disabled", true);  
+	              $("#taskCheck").prop('checked', false);
+	              $("#tasks").prop("disabled", true);
+	           }
+	        });
+	        
+	        if(${param["tid"] != null}){
+				$("#taskCheck").prop('checked', true);
+			}
+	        
+	        if(!$("#taskCheck").is(":checked"))
+	        {
+	            $("#tasks").prop("disabled",true);
+	        }
+
+	        $("#taskCheck").click(function(e) {
+	           if ($("#stageCheck").is(":checked")) { 
+		           if ($(this).is(":checked")) { 
+		              $("#tasks").prop("disabled", false);
+		              $( "#tasks" ).trigger( "change" );
+		           } else {
+		              $("#tasks").prop("disabled", true);  
+		           }
+	           } else {
+	        	   e.preventDefault();
+	           }
+	        });
+	        
+	        $('.btn.stretch').width(Math.max.apply(Math, $('.btn.stretch').map(function() {
+				return $(this).outerWidth();
+			}).get()));
+	        
+		});
+		
+		var projectClickEvent = function(projectId) {
 			window.location.href = "${context}/document/project?pid="
 					+ projectId;
 		};
 
-		var loadTasksForStage = function(projectId, stageId) {
+		var stageClickEvent = function(projectId, stageId) {
 			window.location.href = "${context}/document/stage?pid=" + projectId
 					+ "&amp;sid=" + stageId;
-		};
+		};	
 	</script>
 	<script
 		src="http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js">

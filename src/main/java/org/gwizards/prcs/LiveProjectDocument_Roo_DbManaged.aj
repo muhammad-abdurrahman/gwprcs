@@ -3,30 +3,21 @@
 
 package org.gwizards.prcs;
 
-import java.util.Calendar;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import org.gwizards.prcs.DocumentPermission;
 import org.gwizards.prcs.LiveProject;
 import org.gwizards.prcs.LiveProjectDocument;
 import org.gwizards.prcs.LiveProjectDocumentVersion;
-import org.gwizards.prcs.Staff;
-import org.springframework.format.annotation.DateTimeFormat;
 
 privileged aspect LiveProjectDocument_Roo_DbManaged {
     
     @OneToMany(mappedBy = "liveProjectDocumentNo")
     private Set<LiveProjectDocumentVersion> LiveProjectDocument.liveProjectDocumentVersions;
-    
-    @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "staff_no")
-    private Staff LiveProjectDocument.authorId;
     
     @ManyToOne
     @JoinColumn(name = "document_permission_no", referencedColumnName = "document_permission_no")
@@ -43,26 +34,12 @@ privileged aspect LiveProjectDocument_Roo_DbManaged {
     @Column(name = "live_project_document_type", columnDefinition = "VARCHAR", length = 45)
     private String LiveProjectDocument.liveProjectDocumentType;
     
-    @Column(name = "creation_date", columnDefinition = "DATETIME")
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "MM")
-    private Calendar LiveProjectDocument.creationDate;
-    
     public Set<LiveProjectDocumentVersion> LiveProjectDocument.getLiveProjectDocumentVersions() {
         return liveProjectDocumentVersions;
     }
     
     public void LiveProjectDocument.setLiveProjectDocumentVersions(Set<LiveProjectDocumentVersion> liveProjectDocumentVersions) {
         this.liveProjectDocumentVersions = liveProjectDocumentVersions;
-    }
-    
-    public Staff LiveProjectDocument.getAuthorId() {
-        return authorId;
-    }
-    
-    public void LiveProjectDocument.setAuthorId(Staff authorId) {
-        this.authorId = authorId;
     }
     
     public DocumentPermission LiveProjectDocument.getDocumentPermissionNo() {
@@ -95,14 +72,6 @@ privileged aspect LiveProjectDocument_Roo_DbManaged {
     
     public void LiveProjectDocument.setLiveProjectDocumentType(String liveProjectDocumentType) {
         this.liveProjectDocumentType = liveProjectDocumentType;
-    }
-    
-    public Calendar LiveProjectDocument.getCreationDate() {
-        return creationDate;
-    }
-    
-    public void LiveProjectDocument.setCreationDate(Calendar creationDate) {
-        this.creationDate = creationDate;
     }
     
 }

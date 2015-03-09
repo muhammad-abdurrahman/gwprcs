@@ -7,6 +7,6 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooJpaActiveRecord(versionField = "", table = "document_version")
 @RooDbManaged(automaticallyDelete = true)
-@RooToString(excludeFields = { "liveProjectStageDocumentVersions", "liveProjectStageTaskDocumentVersions", "authorId" })
+@RooToString(excludeFields = { "liveProjectStageDocumentVersions", "liveProjectStageTaskDocumentVersions", "authorId", "liveProjectDocumentVersions" })
 public class DocumentVersion {
 }

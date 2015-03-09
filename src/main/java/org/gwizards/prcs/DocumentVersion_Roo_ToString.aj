@@ -10,7 +10,7 @@ import org.gwizards.prcs.DocumentVersion;
 privileged aspect DocumentVersion_Roo_ToString {
     
     public String DocumentVersion.toString() {
-        return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).setExcludeFieldNames("liveProjectStageDocumentVersions", "liveProjectStageTaskDocumentVersions", "authorId").toString();
+        return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).setExcludeFieldNames("liveProjectStageDocumentVersions", "liveProjectStageTaskDocumentVersions", "authorId", "liveProjectDocumentVersions").toString();
     }
     
 }
