@@ -26,11 +26,11 @@ public class DocumentController {
 		Set<LiveProjectDocument> liveProjectDouments = liveProject
 				.getLiveProjectDocuments();
 		List<LiveProject> liveProjects = LiveProject.findAllLiveProjects();
-
+		
 		model.addAttribute("projects", liveProjects);
 		model.addAttribute("projectDocuments", liveProjectDouments);
 		model.addAttribute("selectedProject", liveProject);
-
+		
 		return "document-main";
 	}
 
