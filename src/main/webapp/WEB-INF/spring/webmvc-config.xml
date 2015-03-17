@@ -85,7 +85,10 @@
 	<!-- Enable this for integration of file upload functionality -->
 	<bean
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-		id="multipartResolver" />
+		id="multipartResolver">
+		<!-- setting maximum upload size -->
+		<property name="maxUploadSize" value="100000" />
+	</bean>
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		id="tilesViewResolver">
 		<property name="viewClass"

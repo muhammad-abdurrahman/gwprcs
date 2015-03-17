@@ -31,7 +31,7 @@
 	<div id="wrapper">
 		<tiles:insertAttribute name="header" ignore="true" />
 		<tiles:insertAttribute name="menu" ignore="true" />
-		<div id="main">			
+		<div id="main" class="container-fluid" style="margin-top:40px;">
 			<tiles:insertAttribute name="body" />
 			<tiles:insertAttribute name="footer" ignore="true" />
 		</div>

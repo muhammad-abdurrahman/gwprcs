@@ -1,13 +1,439 @@
 <div xmlns:spring="http://www.springframework.org/tags"
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
-	<util:panel id="class" title="Document class">
-			<input type="radio" name="class" value="project" checked="checked"/>Project<br /> 
-			<input type="radio" name="class" value="stage" />Stage<br /> 
-			<input type="radio" name="class" value="task" />Task
-	</util:panel>
-	<util:panel id="list" title="Document list">
-	</util:panel>
+	<script>
+		selectNavigationTab('document_li');
+	</script>
+	<style>
+.shift {
+	margin-left: 22px;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media ( min-width : 768px) {
+	.shift {
+		margin-left: 0;
+	}
+}
+}
+</style>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Document Level
+			<c:if test="${selectedProject != null}"> |  <strong>${selectedProject.getProjectShortName()}</strong>
+			</c:if>
+			<c:if test="${selectedStage != null}">  >  <strong>${selectedStage.getStageNo().getStageName()}</strong>
+			</c:if>
+			<c:if test="${selectedTask != null}">  >  <strong>${selectedTask.getTaskNo().getTaskName()}</strong>
+			</c:if>
+		</div>
+		<div class="panel-body">
+			<div class="row" style="margin-left: 5px;">
+				<div class="col-md-4">
+					<div class="form-group">
+						<div id="projectContainer" class="form-group">
+							<div class="row form-inline">
+								<label for="projects">Select Project</label>
+							</div>
+							<div class="row">
+								<select class="form-control" id="projects" name="projects"
+									style="width: 250px;" onchange="projectClickEvent(this.value);">
+									<c:forEach var="project" items="${projects}">
+										<option value="${project.getLiveProjectNo()}">
+											<c:out value="${project.getProjectShortName()}"></c:out>
+										</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<div id="stageContainer" class="form-group">
+							<div class="row form-inline">
+								<div class="shift">
+									<div class="checkbox">
+										<input type="checkbox" id="stageCheck" name="stageCheck"
+											style="margin-right: 5px;" />
+									</div>
+									<label for="selectedStage">Select Stage</label>
+								</div>
+							</div>
+							<div class="row">
+								<select class="form-control" id="stages" name="stages"
+									style="width: 250px;"
+									onchange="stageClickEvent($('#projects').val(), this.value);">
+									<c:forEach var="stage"
+										items="${selectedProject.getLiveProjectStages()}">
+										<option value="${stage.getStageNo().getStageNo()}">
+											<c:out value="${stage.getStageNo().getStageName()}"></c:out>
+										</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<div id="taskContainer" class="form-group">
+							<div class="row form-inline">
+								<div class="shift">
+									<div class="checkbox">
+										<input type="checkbox" id="taskCheck" name="taskCheck"
+											style="margin-right: 5px;" />
+									</div>
+									<label for="selectedTask">Select Task</label>
+								</div>
+							</div>
+							<div class="row">
+								<select class="form-control" id="tasks" name="tasks"
+									style="width: 250px;"
+									onchange="taskClickEvent($('#projects').val(), $('#stages').val(), this.value);">
+									<c:forEach var="task"
+										items="${selectedStage.getLiveProjectStageTasks()}">
+										<option value="${task.getTaskNo().getTaskNo()}">
+											<c:out value="${task.getTaskNo().getTaskName()}"></c:out>
+										</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<link rel="stylesheet"
+		href="http://cdn.datatables.net/1.10.5/css/jquery.dataTables.css" />
+
+	<div id="example_wrapper" class="dataTables_wrapper">
+		<table id="example" class="display dataTable" cellspacing="0"
+			width="100%" role="grid" aria-describedby="example_info"
+			style="width: 100%;">
+			<thead>
+				<tr role="row">
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="ID: activate to sort column ascending"
+						style="width: 15px;">ID</th>
+					<th class="sorting_asc" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1" aria-sort="ascending"
+						aria-label="Document Name: activate to sort column descending"
+						style="width: 250px;">Document Name</th>
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="Latest Version: activate to sort column ascending"
+						style="width: 326px;">Latest Version</th>
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="Document Type: activate to sort column ascending"
+						style="width: 15px;">Document Type</th>
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="Permission Level: activate to sort column ascending"
+						style="width: 20px;">Permission Level</th>
+					<th class="sorting" tabindex="0" aria-controls="example"
+						rowspan="1" colspan="1"
+						aria-label="Actions: activate to sort column ascending"
+						style="width: 70px;">Actions</th>
+				</tr>
+			</thead>
+
+			<tfoot>
+				<tr>
+					<th rowspan="1" colspan="1">ID</th>
+					<th rowspan="1" colspan="1">Document Name</th>
+					<th rowspan="1" colspan="1">Latest Version</th>
+					<th rowspan="1" colspan="1">Document Type</th>
+					<th rowspan="1" colspan="1">Permission Level</th>
+					<th rowspan="1" colspan="1">Actions</th>
+				</tr>
+			</tfoot>
+
+			<tbody>
+				<c:choose>
+					<c:when test="${param['sid'] == null }">
+						<!-- Project Level -->
+
+						<c:forEach var="projectDocument" items="${projectDocuments}">
+							<tr role="row" class="odd">
+								<td>${projectDocument.getLiveProjectDocumentNo()}</td>
+								<td class="sorting_1">${projectDocument.getLiveProjectDocumentName()}</td>
+
+								<c:set var="latestDocumentVersion"
+									value="${projectDocument.getLiveProjectDocumentVersions().size() > 0 ? projectDocument.getLiveProjectDocumentVersions().iterator().next() : null}" />
+								<c:forEach var="documentVersion"
+									items="${projectDocument.getLiveProjectDocumentVersions()}">
+									<c:if
+										test="${documentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() > latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }">
+										<c:set var="latestDocumentVersion" value="${documentVersion}" />
+									</c:if>
+								</c:forEach>
+
+								<td><a href="#">${latestDocumentVersion.getLiveProjectDocumentNo().getLiveProjectDocumentName()}
+										<small><i>[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</i></small>
+								</a></td>
+								<td>${projectDocument.getLiveProjectDocumentType() }</td>
+								<td>${projectDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
+								<td><a href="#">View Versions</a> | <a href="#">Manage
+										Permissions</a></td>
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:when test="${param['sid'] != null and param['tid'] == null}">
+						<!-- Stage Level -->
+
+						<c:forEach var="stageDocument" items="${stageDocuments}">
+							<tr role="row" class="odd">
+								<td>${stageDocument.getLiveProjectStageDocumentNo()}</td>
+								<td class="sorting_1">${stageDocument.getLiveProjectStageDocumentName()}</td>
+
+								<c:set var="latestDocumentVersion"
+									value="${stageDocument.getLiveProjectStageDocumentVersions().size() > 0 ? stageDocument.getLiveProjectStageDocumentVersions().iterator().next() : null}" />
+								<c:forEach var="documentVersion"
+									items="${stageDocument.getLiveProjectStageDocumentVersions()}">
+									<c:if
+										test="${documentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() > latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }">
+										<c:set var="latestDocumentVersion" value="${documentVersion}" />
+									</c:if>
+								</c:forEach>
+
+								<td><a href="#">${latestDocumentVersion.getLiveProjectStageDocumentNo().getLiveProjectStageDocumentName()}
+										<small><i>[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</i></small>
+								</a></td>
+								<td>${stageDocument.getLiveProjectStageDocumentType() }</td>
+								<td>${stageDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
+								<td><a href="#">View Versions</a> | <a href="#">Manage
+										Permissions</a></td>
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:when test="${param['tid'] != null}">
+						<!-- Task Level -->
+
+						<c:forEach var="taskDocument" items="${taskDocuments}">
+							<tr role="row" class="odd">
+								<td>${taskDocument.getLiveProjectStageTaskDocumentNo()}</td>
+								<td class="sorting_1">${taskDocument.getLiveProjectStageTaskDocumentName()}</td>
+
+								<c:set var="latestDocumentVersion"
+									value="${taskDocument.getLiveProjectStageTaskDocumentVersions().size() > 0 ? taskDocument.getLiveProjectStageTaskDocumentVersions().iterator().next() : null}" />
+								<c:forEach var="documentVersion"
+									items="${taskDocument.getLiveProjectStageTaskDocumentVersions()}">
+									<c:if
+										test="${documentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() > latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }">
+										<c:set var="latestDocumentVersion" value="${documentVersion}" />
+									</c:if>
+								</c:forEach>
+
+								<td><a href="#">${latestDocumentVersion.getLiveProjectStageTaskDocumentNo().getLiveProjectStageTaskDocumentName()}
+										<small><i>[${latestDocumentVersion.getDocumentVersionNo().getDocumentVersionCreationDate().getTime() }]</i></small>
+								</a></td>
+								<td>${taskDocument.getLiveProjectStageTaskDocumentType() }</td>
+								<td>${taskDocument.getDocumentPermissionNo().getDocumentPermissionType() }</td>
+								<td><a href="#">View Versions</a> | <a href="#">Manage
+										Permissions</a></td>
+							</tr>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+			</tbody>
+		</table>
+	</div>
+	<br />
+	<div class="panel panel-default" style="padding: 12px 30px 12px 30px;">
+		<div class="row text-center">
+			<!-- Button trigger modal -->
+			<button type="button" name="uploadNewDocumentBtn"
+				id="uploadNewDocumentBtn" class="btn btn-default stretch"
+				data-toggle="modal" data-target="#uploadModal">Upload
+				Document</button>
+			<button name="manageSelectedDocumentsBtn"
+				id="manageSelectedDocumentsBtn" class="btn btn-default stretch"
+				data-toggle="modal" data-target="#managePermissionsModal">Manage
+				Selected Document's Permissions</button>
+			<button name="deleteSelectedDocumentsBtn"
+				id="deleteSelectedDocumentsBtn" class="btn btn-default stretch"
+				data-toggle="modal" data-target="#deleteModal">Delete
+				Selected Documents [All Versions]</button>
+			<button name="clearSelectionsBtn" id="clearSelectionsBtn"
+				class="btn btn-default stretch">Clear All Selections</button>
+		</div>
+	</div>
+
+	<!-- Upload Modal -->
+	<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog"
+		aria-labelledby="uploadModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&#xd7;</span>
+					</button>
+					<h4 class="modal-title" id="uploadModalLabel">Upload Document</h4>
+				</div>
+				<form method="POST" enctype="multipart/form-data"
+					action="${context}/document/upload">
+					<div class="modal-body">
+						<!-- TODO -->
+						File to upload: <input type="file" name="file"
+							class="btn btn-default" />
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary">Upload</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Manage Permissions Modal -->
+	<div class="modal fade" id="managePermissionsModal" tabindex="-1"
+		role="dialog" aria-labelledby="managePermissionsModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&#xd7;</span>
+					</button>
+					<h4 class="modal-title" id="managePermissionsModalLabel">Manage
+						Document Permission</h4>
+				</div>
+				<div class="modal-body">...</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+		aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&#xd7;</span>
+					</button>
+					<h4 class="modal-title" id="deleteModalLabel">Delete Documents</h4>
+				</div>
+				<div class="modal-body">Are you sure you want to delete X
+					documents?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			var table = $('#example').DataTable();
+			$('#example tbody').on('click', 'tr', function() {
+				$(this).toggleClass('selected');
+			});
+			
+			if(${param["sid"] != null}){
+				$("#stageCheck").prop('checked', true);
+			}
+			
+			if(!$("#stageCheck").is(":checked"))
+	        {
+	            $("#stages").prop("disabled",true);
+	        }
+			
+	        if(${param["tid"] != null}){
+				$("#taskCheck").prop('checked', true);
+			}
+	        
+	        if(!$("#taskCheck").is(":checked"))
+	        {
+	            $("#tasks").prop("disabled",true);
+	        }
+	        
+			// Event Handlers
+	        $("#stageCheck").click(function() {
+	           if ($(this).is(":checked")) { 
+	              $("#stages").prop("disabled", false);
+				  $( "#stages" ).trigger( "change" );
+	           } else {
+	              $("#stages").prop("disabled", true);  
+	              $("#taskCheck").prop('checked', false);
+	              $("#tasks").prop("disabled", true);
+	              $( "#projects" ).trigger( "change" );
+	           }
+	        });
+
+	        $("#taskCheck").click(function(e) {
+	           if ($("#stageCheck").is(":checked")) { 
+		           if ($(this).is(":checked")) { 
+		              $("#tasks").prop("disabled", false);
+		              $( "#tasks" ).trigger( "change" );
+		           } else {
+		              $("#tasks").prop("disabled", true);
+		              $( "#stages" ).trigger( "change" );
+		           }
+	           } else {
+	        	   e.preventDefault();
+	           }
+	        });
+	        
+	        $('#clearSelectionsBtn').click( function () {
+	        	 table.$('tr.selected').removeClass('selected');
+	        } );
+	        
+	        // Stretch buttons to be equal width
+	        $('.btn.stretch').width(Math.max.apply(Math, $('.btn.stretch').map(function() {
+				return $(this).outerWidth();
+			}).get()));
+	        
+	        // Select project
+	        $('#projectContainer option[value="${selectedProject.getLiveProjectNo()}"]')
+			.prop('selected', true);
+	        
+	        // Select stage
+	        $('#stageContainer option[value="${selectedStage.getLiveProjectStageNo()}"]')
+			.prop('selected', true);
+	        
+	        //Select task
+	        $('#taskContainer option[value="${selectedTask.getLiveProjectStageTaskNo()}"]')
+			.prop('selected', true);
+	        
+		});
+		
+		var projectClickEvent = function(projectId) {
+			window.location.href = "${context}/document/project?pid="
+					+ projectId;
+		};
+
+		var stageClickEvent = function(projectId, stageId) {
+			window.location.href = "${context}/document/stage?pid=" + projectId
+					+ "&amp;sid=" + stageId;
+		};
+		
+		var taskClickEvent = function(projectId, stageId, taskId) {
+			window.location.href = "${context}/document/task?pid=" + projectId
+					+ "&amp;sid=" + stageId
+					+ "&amp;tid=" + taskId;
+		};
+	</script>
+	<script
+		src="http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
 </div>

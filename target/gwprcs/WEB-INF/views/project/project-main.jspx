@@ -1,54 +1,264 @@
 <div xmlns:spring="http://www.springframework.org/tags"
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<script>
-
-		var menuItems = $("#menu ul li");
-		menuItems.each(function(idx, li) {
-			var item = $(li);
-			if ($(li).attr('id') == 'project_li') {
-				$(li).addClass("active");
-			} else {
-				$(li).removeClass("active");
-			}
-		});
+		selectNavigationTab('project_li');
 	</script>
-	<util:panel id="project" title="Project">
-		<select>
-			<option value="p1">Project 1</option>
-			<option value="p2">Project 2</option>
-			<option value="p3">Project 3</option>
-			<option value="p4">Project 4</option>
-		</select>
-		<div>
-			<a href="#">Manage documents</a> | <a href="#">Manage reviews</a> | <a
-				href="#">Add new project</a>
+	<style>
+		.btn {
+			margin-bottom: 10px;
+		}
+		
+		.panel.panel-info {
+			margin-bottom: 12px;
+		}
+	
+		@media ( min-width : 992px) {
+			.panel.panel-info { 
+				margin-bottom: 0;
+			}
+		}
+	</style>
+
+	<div class="panel-group" id="accordion" role="tablist"
+		aria-multiselectable="true">
+		<div class="panel panel-primary">
+			<div class="panel-heading" role="tab" id="headingOne">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion"
+						href="#collapseOne" aria-expanded="true"
+						aria-controls="collapseOne"> Project <c:if
+							test="${selectedProject != null}"> |  ${selectedProject.getProjectShortName()}</c:if></a>
+				</h4>
+			</div>
+			<div id="collapseOne" class="panel-collapse collapse in"
+				role="tabpanel" aria-labelledby="headingOne">
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4" style="text-align: center;">
+
+								<!--Info buttons with dropdown menu-->
+								<div class="btn-group">
+									<button type="button" class="btn btn-info">Select
+										Project</button>
+									<button type="button" data-toggle="dropdown"
+										class="btn btn-info dropdown-toggle">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<c:forEach var="project" items="${projects}">
+											<li><a
+												href="${context}/project?pid=${project.getLiveProjectNo()}"><c:out
+														value="${project.getProjectShortName()}"></c:out></a></li>
+										</c:forEach>
+									</ul>
+									<br />
+								</div>
+							</div>
+							<div class="col-md-4" style="text-align: center;">
+								<div class="panel panel-info">
+									<div class="panel-heading" style="text-align: left;">Selected
+										Project</div>
+									<div class="panel-body" style="text-align: left;">
+										<c:if test="${not empty selectedProject}">
+											<p>ID: ${selectedProject.getLiveProjectNo()}</p>
+											<p>Name: ${selectedProject.getProjectShortName()}</p>
+											<p>Type:
+												${selectedProject.getProjectTypeNo().getProjectTypeDesc()}</p>
+											<p>
+												Start Date:
+												<fmt:formatDate pattern="dd-MM-yyyy"
+													value="${selectedProject.getProjectStart()}" />
+											</p>
+											<p>
+												End Date:
+												<fmt:formatDate pattern="dd-MM-yyyy"
+													value="${selectedProject.getProjectEnd()}" />
+											</p>
+										</c:if>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button name="manageDocumentsBtn" id="manageDocumentsBtn"
+												onclick="manageDocumentForProject(${selectedProject.getLiveProjectNo()})"
+												type="button" class="btn stretch btn-lg btn-info">Manage
+												Documents</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button type="button" class="btn stretch btn-lg btn-info">Manage
+												Reviews</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button type="button" class="btn stretch btn-lg btn-info">Manage
+												Projects</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</util:panel>
-	<util:panel id="stage" title="Stage" openPane="true">
-		<select>
-			<option value="s1">Stage 1</option>
-			<option value="s2">Stage 2</option>
-			<option value="s3">Stage 3</option>
-			<option value="s4">Stage 4</option>
-		</select>
-		<div>
-			<a href="#">Manage documents</a> | <a href="#">Manage reviews</a> | <a
-				href="#">Add new stage</a>
+
+		<div class="panel panel-success">
+			<div class="panel-heading" role="tab" id="headingTwo">
+				<h4 class="panel-title">
+					<a class="collapsed" data-toggle="collapse"
+						data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
+						aria-controls="collapseTwo"> Stage </a>
+				</h4>
+			</div>
+			<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+				aria-labelledby="headingTwo">
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4" style="text-align: center;">
+
+								<!--Info buttons with dropdown menu-->
+								<div class="btn-group">
+									<button type="button" class="btn btn-info">Select
+										Stage</button>
+									<button type="button" data-toggle="dropdown"
+										class="btn btn-info dropdown-toggle">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="#">Stage 1</a></li>
+										<li><a href="#">Stage 2</a></li>
+										<li><a href="#">Stage 3</a></li>
+									</ul>
+									<br />
+								</div>
+							</div>
+							<div class="col-md-4" style="text-align: center;">
+								<div class="panel panel-info">
+									<div class="panel-heading" style="text-align: left;">Selected
+										Stage</div>
+									<div class="panel-body" style="text-align: left;">
+										<p></p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button type="button" class="btn stretch btn-lg btn-info">Manage
+												Documents</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button type="button" class="btn stretch btn-lg btn-info">Manage
+												Reviews</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button type="button" class="btn stretch btn-lg btn-info">Manage
+												Project Stages</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</util:panel>
-	<util:panel id="task" title="Task" openPane="true">
-		<select>
-			<option value="t1">Task 1</option>
-			<option value="t2">Task 2</option>
-			<option value="t3">Task 3</option>
-			<option value="t4">Task 4</option>
-		</select>
-		<div>
-			<a href="#">Manage documents</a> | <a href="#">Manage reviews</a> | <a
-				href="#">Add new task</a>
+
+		<div class="panel panel-warning">
+			<div class="panel-heading" role="tab" id="headingThree">
+				<h4 class="panel-title">
+					<a class="collapsed" data-toggle="collapse"
+						data-parent="#accordion" href="#collapseThree"
+						aria-expanded="false" aria-controls="collapseThree"> Task </a>
+				</h4>
+			</div>
+			<div id="collapseThree" class="panel-collapse collapse"
+				role="tabpanel" aria-labelledby="headingThree">
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4" style="text-align: center;">
+
+								<!--Info buttons with dropdown menu-->
+								<div class="btn-group">
+									<button type="button" class="btn btn-info">Select Task</button>
+									<button type="button" data-toggle="dropdown"
+										class="btn btn-info dropdown-toggle">
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="#">Task 1</a></li>
+										<li><a href="#">Task 2</a></li>
+										<li><a href="#">Task 3</a></li>
+									</ul>
+									<br />
+								</div>
+							</div>
+							<div class="col-md-4" style="text-align: center;">
+								<div class="panel panel-info">
+									<div class="panel-heading" style="text-align: left;">Selected
+										Task</div>
+									<div class="panel-body" style="text-align: left;">
+										<p></p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button type="button" class="btn stretch btn-lg btn-info">Manage
+												Documents</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button type="button" class="btn stretch btn-lg btn-info">Manage
+												Reviews</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12" style="text-align: center;">
+											<button type="button" class="btn stretch btn-lg btn-info">Manage
+												Stage Tasks</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</util:panel>
+	</div>
+
+	<script>
+		$('.btn.stretch').width(Math.max.apply(Math, $('.btn.stretch').map(function() {
+			return $(this).outerWidth();
+		}).get()));
+		
+		var manageDocumentForProject = function(liveProjectNo) {
+			if (liveProjectNo != null) {
+				window.location.href = "${context}/document/project?pid=${selectedProject.getLiveProjectNo()}";
+			}
+		};
+	</script>
 </div>

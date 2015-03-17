@@ -4,27 +4,17 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<script>
-		var menuItems = $("#menu ul li");
-		menuItems.each(function(idx, li) {
-			var item = $(li);
-			if ($(li).attr('id') == 'home_li') {
-				$(li).addClass("active");
-			} else {
-				$(li).removeClass("active");
-			}
-		});
+		selectNavigationTab('home_li');
 	</script>
-
 	<spring:message var="app_name" code="application_name"
 		htmlEscape="false" />
 	<spring:message var="title" code="welcome_titlepane"
 		arguments="GWizards Project Resource Control System"
 		htmlEscape="false" />
-	<util:panel id="title" title="${title}">
-		<h3>
-			<spring:message code="welcome_h3"
-				arguments="the GWizards Project Resource Control System" />
-		</h3>
-	</util:panel>
+	<h3>
+		<spring:message code="welcome_h3"
+			arguments="the GWizards Project Resource Control System" />
+	</h3>
+	<br /><br />
 
 </div>
